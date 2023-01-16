@@ -1,0 +1,140 @@
+---
+title: "Automating secret rotation in Kubernetes"
+subtitle: "Minimizing mistakes by removing the human element"
+date: 2023-02-04
+event: "FOSDEM '23"
+description: |
+    For years there was this notion that Kubernetes secrets are inherently insecure. There are certainly concerns about how Kubernetes stores and handles secrets, but base64 encoding (that most people often call out) is not the issue.
+
+    Regardless of how Kubernetes attempts to secure secrets, frequently rotating those secrets is certainly a best practice. It also poses a huge challenge, especially when done manually in a highly distributed environment: ensuring secrets are rotated in time, everywhere without affecting availability without making mistakes is no job for humans.
+format:
+  revealjs:
+    theme: default
+    navigation-mode: vertical
+    controls: true
+    controls-layout: bottom-right
+    title-slide-attributes:
+        data-background-color: "#326ce5"
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Engineering Technical Lead @ Cisco_
+
+<br>
+5+ years experience with Kubernetes
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+# Why is secret rotation important?
+
+- Maintain security of sensitive information
+- Meet compliance requirements
+- Reduce the risk of a data breach
+
+# Challenges of secret rotation
+
+- Complexity
+- Time-consuming and error prone process
+- Disruption of service availability
+- Lack of standardization
+
+# Secret rotation should be...
+
+- possible
+- automated
+- periodic
+
+# Secret rotation flow
+
+```{mermaid}
+sequenceDiagram
+    actor Operator
+    participant Provider as Secret provider
+    participant Store as Secret store
+    participant Deploy as ???
+    participant Production
+
+    Deploy->>Store: Watch for changes
+    activate Deploy
+    Operator->>Provider: Generate new secret
+    Provider-->>Operator: Return new secret
+    Operator->>Store: Rotate secret in store
+    Store-->>Deploy: Notice secret change
+    deactivate Deploy
+    Deploy->>Production: Deploy new secret
+```
+
+## Fully automated secret rotation {.center}
+
+```{mermaid}
+sequenceDiagram
+    participant Provider as Secret provider
+    participant Store as Secret store
+    participant Deploy as ???
+    participant Production
+
+    Deploy->>Store: Watch for changes
+    activate Deploy
+    Store->>Provider: Generate new secret
+    Provider-->>Store: Save new secret
+    Store-->>Deploy: Notice secret change
+    deactivate Deploy
+    Deploy->>Production: Deploy new secret
+```
+
+# Secret rotation in Kubernetes
+
+## Deploying secrets to Kubernetes
+
+- External Secrets: [https://external-secrets.io](https://external-secrets.io)
+- Synchronize secrets from an external store to Kubernetes secrets
+- Mount secrets as usual (env var, file)
+
+<br>
+
+::: {.fragment style="text-align: center;"}
+**How can we reload env vars?**
+:::
+
+## Triggering workload rollout
+
+- Reloader: [https://github.com/stakater/Reloader](https://github.com/stakater/Reloader)
+- Detects secret changes
+- Triggers rollout for workloads referencing changed secrets
+
+## {.center}
+
+```{mermaid}
+sequenceDiagram
+    participant Store as Secret store
+    participant ExternalSecrets as External secrets
+    participant Kubernetes
+    participant Reloader
+
+    ExternalSecrets->>Store: Watch for changes
+    Reloader->>Kubernetes: Watch for changes
+    Store-->>ExternalSecrets: Notice secret change
+    ExternalSecrets->>Kubernetes: Deploy new secret
+    Kubernetes-->>Reloader: Notice secret change
+    Reloader->>Kubernetes: Trigger workload rollout
+```
+
+# Demo {background-color="#326ce5"}
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)

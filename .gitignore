@@ -1,0 +1,8 @@
+/.direnv/
+/.task/
+/.quarto/
+/_site/
+/bin/
+/build/
+/tmp/
+/vendor/
