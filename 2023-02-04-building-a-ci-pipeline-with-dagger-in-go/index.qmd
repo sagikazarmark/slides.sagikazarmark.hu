@@ -34,8 +34,6 @@ Help engineering teams focus on their business
 
 [https://sagikazarmark.hu](https://sagikazarmark.hu)
 
-# {background-image="toptal-yaml.png" background-transition=slide}
-
 # Agenda
 
 - Challenges of CI/CD today
