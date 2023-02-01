@@ -4,10 +4,15 @@ listing:
   contents: .
   sort: "date desc"
   type: default
-  categories: false
+  fields: [image, date, title, subtitle, categories]
+  categories: true
   sort-ui: false
   filter-ui: false
 page-layout: full
 title-block-banner: true
-format: html
+# format: html
+format:
+  html:
+    template-partials:
+        - resources/templates/html/title-block.html
 ---

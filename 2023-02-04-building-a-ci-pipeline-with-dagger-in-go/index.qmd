@@ -6,6 +6,8 @@ description: |
     Dagger is a programmable CI/CD engine that runs pipelines in containers allowing developers to build and debug pipelines locally and then run them anywhere avoiding vendor lock-in to a particular CI/CD solution.
 
     While the portable pipeline concept may not be new, by combining that with the ability to write pipelines as code (Go, Python, TypeScript, JavaScript, CUE supported at the moment) instead of YAML, Dagger revolutionizes how CI/CD pipelines are built and ran.
+categories: [go, cicd, dagger]
+image: preview.png
 format:
   revealjs:
     theme: default
@@ -40,7 +42,7 @@ Help engineering teams focus on their business
 - Why Dagger?
 - Demo
 
-# Challenges of CI/CD in 2023
+# Challenges of CI/CD today
 
 ---
 
