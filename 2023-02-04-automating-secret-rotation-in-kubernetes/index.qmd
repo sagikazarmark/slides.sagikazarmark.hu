@@ -11,8 +11,6 @@ format:
   revealjs:
     theme: default
     navigation-mode: vertical
-    controls: true
-    controls-layout: bottom-right
     title-slide-attributes:
         data-background-color: "#326ce5"
 ---
@@ -24,7 +22,7 @@ format:
 _Engineering Technical Lead @ Cisco_
 
 <br>
-5+ years experience with Kubernetes
+Help engineering teams run their business on Kubernetes
 <br>
 <br>
 

@@ -1,0 +1,90 @@
+---
+title: "Build CI/CD pipelines as code, run them anywhere"
+date: 2023-02-04
+event: "FOSDEM '23"
+description: |
+    Dagger is a programmable CI/CD engine that runs pipelines in containers allowing developers to build and debug pipelines locally and then run them anywhere avoiding vendor lock-in to a particular CI/CD solution.
+
+    While the portable pipeline concept may not be new, by combining that with the ability to write pipelines as code (Go, Python, TypeScript, JavaScript, CUE supported at the moment) instead of YAML, Dagger revolutionizes how CI/CD pipelines are built and ran.
+format:
+  revealjs:
+    theme: default
+    title-slide-attributes:
+        data-background-color: "#3c66ff"
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+::: {.fragment .strike fragment-index=1}
+_Engineering Technical Lead @ Cisco_
+:::
+
+
+::: {.fragment fragment-index=1}
+_**Senior YAML Engineer** @ Cisco_
+:::
+<br>
+Help engineering teams focus on their business
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+# {background-image="toptal-yaml.png" background-transition=slide}
+
+# Agenda
+
+- Challenges of CI/CD today
+- Why Dagger?
+- Demo
+
+# Challenges of CI/CD in 2023
+
+---
+
+![[Source](https://www.reddit.com/r/kubernetes/comments/qlb5xd/yaml_strikes_again/)](box-of-devops.jpg){.r-stretch fig-align="center"}
+
+---
+
+![](works-on-my-machine-ci.jpg){.r-stretch fig-align="center"}
+
+---
+
+![](ci-feedback-loop.png){.r-stretch fig-align="center"}
+
+# Why Dagger?
+
+- Local testing
+- Portable (run CI/CD anywhere)
+- Write pipelines in your preferred language
+- Caching
+- Avoid vendor lock-in
+
+---
+
+![](containers-everywhere.png){.r-stretch fig-align="center"}
+
+---
+
+![](dagger-flow.png){.r-stretch fig-align="center"}
+
+# Getting started
+
+[Playground](https://play.dagger.cloud/playground)
+
+# Demo {background-color="#02add8"}
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
