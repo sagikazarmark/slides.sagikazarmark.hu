@@ -1,0 +1,342 @@
+---
+title: "Go error handling"
+date: 2019-07-22
+categories: [go]
+image: preview.png
+format:
+  revealjs:
+    theme: sky
+highlight-style: monokai
+---
+
+# History
+
+## Errors are values
+
+```go
+package foo
+
+import "errors"
+
+func Foo() error {
+    errors.New("something went wrong")
+}
+```
+
+```go
+package bar
+
+import "foo"
+
+func Bar() error {
+    return foo.Foo()
+}
+```
+
+## What happened?
+
+```go
+package main
+
+import (
+    "fmt"
+
+    "bar"
+)
+
+func main() error {
+    fmt.Println(bar.Bar())
+}
+
+// Output: something went wrong (?)
+```
+
+## Standard library solutions
+
+## Error prefixing
+
+```{.go code-line-numbers="6"}
+package foo
+
+import "errors"
+
+func Foo() error {
+    errors.New("foo: something went wrong")
+}
+```
+
+## Sentinel errors
+
+```{.go code-line-numbers="7"}
+package io
+
+// ...
+
+// EOF is the error returned by Read
+// when no more input is available.
+var EOF = errors.New("EOF")
+```
+
+## Not enough!!!
+
+- Stack trace
+- Propagation
+- Implicit interface compatibility
+
+## [github.com/pkg/errors](https://github.com/pkg/errors)
+
+- Stack trace
+- Additional message
+- Root cause
+
+## [Emperror](https://github.com/goph/emperror)
+
+- Extends **github.com/pkg/errors**
+- Error handling tools
+
+# Today
+
+## Go 1.12: Modules
+
+[Emperror](https://github.com/goph/emperror) became a huge dependency
+
+<hr />
+**Solution:** Split up the *module* into smaller ones
+
+## New [Emperror](https://github.com/emperror/emperror) library
+
+- New [organization](https://github.com/emperror)
+- Vanity import URL: `emperror.dev/emperror`
+
+```go
+import "emperror.dev/handler/logrus"
+// VS
+import logrus "github.com/emperror/handler-logrus"
+```
+
+## Go 1.13: Errors
+
+- `Unwrap`
+- `As`
+- `Is`
+
+## `Unwrap`
+
+```go
+type myError struct { err error }
+
+func (e myError) Error() string { return e.err.Error() }
+func (e myError) Unwrap() error { return e.err }
+func (e myError) Cause() error { return e.err }
+
+err1 := errors.New("error")
+err2 := &myError{err1}
+err3 := &myError{err2}
+
+err := errors.Unwrap(err3) // == err2
+// BUT
+err := pkgErrors.Cause(err3) // == err1 (!!!)
+```
+
+## `As`
+
+```go
+err := pkgErrors.New("error")
+
+var stackTracer interface{ StackTrace() pkgErrors.StackTrace }
+if errors.As(err, &stackTracer) {
+    st := stackTracer.StackTrace()
+}
+```
+
+<br>
+
+> "Assert errors for behaviour, not type" - [Dave Cheney](https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully)
+
+## `Is`
+
+```go
+err := someFileReading()
+
+if errors.Is(err, io.EOF) {
+    fmt.Println("help, IO error occurred")
+}
+```
+
+## Go 1.13: Errors
+
+Partial incompatibility with [github.com/pkg/errors](https://github.com/pkg/errors)
+
+Only from Go 1.13
+
+No *stack trace*
+
+<hr />
+**Solution:** New error library
+
+## `emperror.dev/errors`
+
+Drop-in replacement for `errors` and [github.com/pkg/errors](https://github.com/pkg/errors)
+
+Merged parts of [Emperror](https://github.com/emperror/emperror) into the new library
+
+Tested with replaced library test suites
+
+# What changed?
+
+## New packages/modules
+
+::: {style="font-size: 30px;"}
+| Old | New |
+|------------------------------------|--------------------------|
+| `github.com/goph/emperror` | `emperror.dev/emperror` |
+| `github.com/goph/emperror/handler/*handler` | `emperror.dev/handler/*` |
+| (no previous module) | `emperror.dev/errors` |
+:::
+
+## Deprecations
+
+::: {style="font-size: 30px;"}
+| Old | New |
+|---------------------------------|----------------------------|
+| `emperror.Wrap` | `errors.WrapIf` |
+| `emperror.Wrapf` | `emperror.WrapIff` |
+| `emperror.With` | `errors.WithDetails` |
+| `emperror.WrapWith` | `errors.WrapIfWithDetails` |
+| `emperror.Context` | `errors.GetDetails` |
+| `emperror.NewMultiErrorBuilder` | `errors.Combine` |
+| `emperror.ForEachCause` | `errors.UnwrapEach` |
+| `emperror.HandlerWith` | `emperror.WithDetails` |
+| `emperror.HandlerWithPrefix` | (no replacement yet) |
+:::
+
+## New functions
+
+- `NewWithDetails`
+- `NewPlain`
+- `WithStackDepth` / `WithStackDepthIf`
+
+<hr />
+[Documentation and examples](https://godoc.org/emperror.dev/errors)
+
+# Examples
+
+## New errors
+
+```go
+// annotated with stack trace
+err := errors.New("something went wrong")
+err := errors.Errorf("something went %s", "wrong")
+
+// annotated with stack trace and details
+err := errors.NewWithDetails(
+    "something went wrong",
+    "key", "value",
+)
+```
+
+## Custom errors
+
+```go
+type TodoNotFoundError struct{
+    TodoID int
+}
+
+func (TodoNotFoundError) Error() string {
+    return "todo not found"
+}
+
+func (e TodoNotFoundError) Details() []interface{} {
+    return []interface{}{"todo_id", e.TodoID}
+}
+
+// ...
+err := errors.WithStack(TodoNotFoundError{TodoID: 1})
+```
+
+## Custom errors
+
+```go
+var e TodoNotFoundError
+if errors.As(err, &e) {
+    fmt.Printf("todo id: %d", e.TodoID)
+}
+
+// OR
+
+e := TodoNotFoundError{TodoID: 1}
+if errors.Is(err, e) {
+    fmt.Printf("todo id: %d", e.TodoID)
+}
+```
+
+## Custom errors
+
+```go
+var e interface{ NotFound() bool }
+if errors.As(err, &e) {
+    fmt.Println("todo not found")
+}
+```
+
+## Sentinel errors
+
+```go
+// create an error without stack trace
+var ErrNotFound = errors.NewPlain("not found")
+
+// ...
+
+// annotate the error with stack trace
+err := errors.WithStack(ErrNotFound)
+
+// ...
+
+// check for error equality
+if errors.Is(err, ErrNotFound) {
+    fmt.Println(err)
+}
+```
+
+## Error wrapping
+
+```go
+var err error
+
+// *If functions only annotate err with a stack trace
+// if there isn't one already in err's chain
+err = errors.WrapIf(err, "error passed through here")
+
+// add key-value pairs to err
+// access them with errors.GetDetails
+err = errors.WithDetails(err, "key", "value")
+```
+
+## Multi errors
+
+```go
+var errs []error
+
+for !exitCondition {
+    err := funcThatErrors()
+    errs = append(errs, err)
+}
+
+// combines several errors into a single one
+// nil values are removed
+err := errors.Combine(errs...)
+```
+
+# Further reading
+
+[https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully](https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully)
+
+[https://8thlight.com/blog/kyle-krull/2018/08/13/exploring-error-handling-patterns-in-go.html](https://8thlight.com/blog/kyle-krull/2018/08/13/exploring-error-handling-patterns-in-go.html)
+
+[https://banzaicloud.com/blog/error-handling-go/](https://banzaicloud.com/blog/error-handling-go/)
+
+## Go 2 proposals
+
+[https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md](https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling-overview.md)
+
+[https://go.googlesource.com/proposal/+/master/design/go2draft-error-values-overview.md](https://go.googlesource.com/proposal/+/master/design/go2draft-error-values-overview.md)

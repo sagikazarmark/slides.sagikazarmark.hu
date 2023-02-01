@@ -1,0 +1,484 @@
+---
+title: "Go testing patterns"
+date: 2021-10-11
+event: "Golang Szeged"
+categories: [go, testing]
+image: preview.png
+format:
+  revealjs:
+    theme: sky
+highlight-style: monokai
+---
+
+# About me
+
+- Eng. Tech Lead / SRE @ Cisco
+- I write Go for a living (for 5+ years now)
+- Love OSS
+- Obsessed with DX
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[https://about.sagikazarmark.hu](https://about.sagikazarmark.hu)
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+# Basics
+
+## Builtin test framework
+
+```shell
+$ go test
+ok  	pkg/pets	1.303s
+ok  	pkg/store	0.037s
+ok  	pkg/store/storeadapter	0.025s
+ok  	pkg/store/payment	0.111s
+```
+
+## Anatomy of a test
+
+files ending with `_test.go`
+
+functions starting with `Test[A-Z]`
+
+`func(t *testing.T)` signature
+
+---
+
+```go
+package pets
+
+import "testing"
+
+func TestDogBarks(t *testing.T) {
+    dog := NewAnimal(Dog)
+
+    if dog.Barks() == false {
+        // a dog should bark
+    }
+}
+```
+
+## Test output/result
+
+- `t.Log()`
+- `t.Error()`
+- `t.Fatal()`
+- `t.Skip()`
+
+## Parallel test running
+
+Tests are executed _concurrently_ by default.
+Packages are tested _in parallel_ by default.
+
+```go
+import "testing"
+
+func TestSomething(t *testing.T) {
+    t.Parallel()
+}
+```
+
+## Running tests
+
+```bash
+# Run tests
+$ go test
+
+# Run tests for specific packages
+$ go test ./pkg/...
+
+# Run tests in verbose mode to see every output
+$ go test -v
+
+# Run a specific test
+$ go test -run ^TestIntegration$
+
+# Run tests with the race detector
+$ go test -race
+```
+
+## Test types
+
+- Test
+- Benchmark
+- Example
+
+# Writing tests
+
+---
+
+```go
+func TestDogBarks(t *testing.T) {
+    dog := NewAnimal(Dog)
+
+    if dog.Barks() == false {
+        t.Error("a dog should be able to bark")
+    }
+}
+```
+
+---
+
+```go
+func TestGetDog(t *testing.T) {
+    dog, err := getDog(1)
+    if err != nil { // oneliner?
+        t.Fatal(err)
+    }
+
+    if got, want := dog.ID, 1; got != want { // oneliner?
+        t.Errorf("id mismatch\nactual:   %+v\nexpected: %+v", got, want)
+    }
+}
+```
+
+## Helpers
+
+```go
+func noError(t *testing.T, err error) {
+    t.Helper()
+
+    if err != nil {
+        t.Fatal(err)
+    }
+}
+```
+
+```go
+func TestGetDog(t *testing.T) {
+    dog, err := getDog(1)
+    noError(t, err)
+
+    // ...
+}
+```
+
+## Assertions
+
+Testify: [https://github.com/stretchr/testify](https://github.com/stretchr/testify)
+
+```go
+import "github.com/stretchr/testify/assert"
+import "github.com/stretchr/testify/require"
+
+func TestGetDog(t *testing.T) {
+    dog, err := getDog(1)
+    require.NoError(t, err)
+
+    assert.Equal(t, 1, dog.ID)
+}
+```
+
+## Dependencies
+
+```go
+type DogService struct {
+    Repository DogRepository
+}
+
+type Dog struct {
+    ID string
+    // ...
+}
+
+type DogRepository interface {
+    GetDog(id string) (Dog, err)
+}
+```
+
+## Test doubles: stubs
+
+```go
+type inmemDogRepository struct{
+    dogs map[string]Dog
+}
+
+func (r inmemDogRepository) GetDog(id string) (Dog, error) {
+    dog, ok := r.dogs[id]
+    if !ok {
+        return Dog{}, ErrDogNotFound
+    }
+
+    return dog, nil
+}
+```
+
+## Test doubles: mocks
+
+Testify: `github.com/stretchr/testify/mock`
+
+```go
+func TestFoo(t *testing.T) {
+    foo := new(Foo)
+
+    foo.On("DoSomething", 123).Return(true, nil)
+
+    bar(foo)
+
+    foo.AssertExpectations(t)
+}
+```
+
+## Test doubles: generated mocks
+
+Generator: [https://github.com/vektra/mockery](https://github.com/vektra/mockery)
+
+```go
+type Stringer struct {
+	mock.Mock
+}
+
+func (m *Stringer) String() string {
+	ret := m.Called()
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	return r0
+}
+```
+
+# Test organization
+
+## Test per feature
+
+```go
+package pets
+
+import "testing"
+
+func TestDogBarks(t *testing.T) {
+    dog := NewAnimal(Dog)
+
+    if dog.Barks() == false {
+        // a dog should bark
+    }
+}
+
+func TestDogBites(t *testing.T) {
+    // ...
+}
+```
+
+## Subtests
+
+```go
+package pets
+
+import "testing"
+
+func TestDog(t *testing.T) {
+    dog := NewAnimal(Dog)
+
+    t.Run("barks", func(t *testing.T) {
+        // ...
+    })
+
+    t.Run("bites", func(t *testing.T) {
+        // ...
+    })
+}
+```
+
+```shell
+$ go test -run TestDog/barks
+```
+
+## Test suites
+
+Testify: `github.com/stretchr/testify/suite`
+
+```go
+func TestDogTestSuite(t *testing.T) {
+	suite.Run(t, new(DogTestSuite))
+}
+
+type DogTestSuite struct {
+	suite.Suite
+}
+
+func (s *DogTestSuite) SetupTest() {}
+
+func (s *DogTestSuite) AfterTest(suiteName, testName string) {}
+
+func (s *DogTestSuite) Test_Barks() {
+	// ...
+}
+```
+
+## Table driven tests
+
+```go
+func TestSplit(t *testing.T) {
+	tests := struct{
+		name  string
+		input string
+		sep   string
+		want  []string
+	} {
+		{
+			name:  "empty",
+			input: "",
+			sep:   ",",
+			want:   []string{""},
+		},
+	}
+}
+```
+
+## Table driven tests
+
+```go
+func TestSplit(t *testing.T) {
+	// ...
+
+	for _, tc := range tests {
+		tc := tc
+
+		t.Run(tc.name, func(t *testing.T) {
+			assert.Equal(t, Split(tc.input, tc.sep), tc.want)
+		})
+	}
+}
+```
+
+# Integration tests
+
+## Build tags
+
+```go
+//go:build integration
+
+package foo
+
+func TestFoo(t *testing.T) {
+    // ...
+}
+```
+
+```shell
+$ go test -tags integration
+```
+
+[https://peter.bourgon.org/blog/2021/04/02/dont-use-build-tags-for-integration-tests.html](https://peter.bourgon.org/blog/2021/04/02/dont-use-build-tags-for-integration-tests.html)
+
+## Short tests
+
+```go
+package foo
+
+func TestFoo(t *testing.T) {
+    if t.Short() {
+        t.Skip("skipping test in short mode")
+    }
+
+    // ...
+}
+```
+
+```shell
+$ go test -short
+```
+
+## Environment variables
+
+```go
+func TestFoo(t *testing.T) {
+	fooAddr := os.Getenv("FOO_ADDR")
+	if fooAddr == "" {
+		t.Skip("set FOO_ADDR to run this test")
+	}
+
+	f, err := foo.Connect(fooAddr)
+	// ...
+}
+```
+
+```shell
+$ FOO_ADDR=127.0.0.1:8080 go test
+```
+
+## Test name
+
+```go
+func TestIntegration(t *testing.T) {
+	if m := flag.Lookup("test.run").Value.String(); m == "" || !regexp.MustCompile(m).MatchString(t.Name()) {
+		t.Skip("skipping as execution was not requested explicitly using go test -run")
+	}
+
+	t.Run("foo", testFoo)
+    // ...
+}
+
+func testFoo(t *testing.T) {
+    // ...
+}
+```
+
+```shell
+$ go test -run ^TestIntegration$
+```
+
+# "Tips"
+
+Take them with a grain of salt.
+
+## CI: Race detector
+
+```go
+$ go test -race
+```
+
+## CI: Code coverage
+
+[https://github.com/gotestyourself/gotestsum](https://github.com/gotestyourself/gotestsum)
+
+## Avoid "test frameworks"
+
+- Javaism, Rubyism
+- Most libraries: [https://awesome-go.com/#testing](https://awesome-go.com/#testing)
+- Just use Testify
+- Exception: godog/go-bdd
+
+# What's new
+
+## Go 1.16: `testing/fstest`
+
+- Filesystem tests
+- `MapFS`
+
+## Go 1.17: `TB.Setenv`
+
+```go
+func TestFoo(t *testing.T) {
+    t.Setenv("KEY", "VALUE")
+}
+```
+
+Must **not** be used in parallel tests (ie. with `t.Parallel`).
+
+## Go 1.18: Fuzzing
+
+```go
+func FuzzParseQuery(f *testing.F) {
+    f.Add("x=1&y=2")
+    f.Fuzz(func(t *testing.T, queryStr string) {
+        // ...
+    })
+}
+```
+
+[https://go.dev/blog/fuzz-beta](https://go.dev/blog/fuzz-beta)
+
+# The End
+
+Questions?
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)

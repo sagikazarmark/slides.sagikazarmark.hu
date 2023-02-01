@@ -16,3 +16,16 @@ format:
     template-partials:
         - resources/templates/html/title-block.html
 ---
+
+Want to grab a PDF version?
+
+Try the [PDF Export mode](https://quarto.org/docs/presentations/revealjs/presenting.html#print-to-pdf) from Chrome/Chromium.
+
+Alternatively (and sometimes for better result), use [decktape](https://github.com/astefanutti/decktape):
+
+```shell
+decktape --size='1920x1080' 'http://slides.sagikazarmark.hu/path/to/slides' slides.pdf
+```
+
+<br>
+<br>

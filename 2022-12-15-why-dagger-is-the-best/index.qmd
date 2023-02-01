@@ -1,0 +1,85 @@
+---
+title: "Why Dagger is the best"
+date: 2022-12-15
+event: "Dagger Community Call"
+categories: [cicd, dagger]
+image: preview.png
+format:
+  revealjs:
+    theme: default
+    title-slide-attributes:
+        data-background-color: "#131225"
+---
+
+# Boring slide
+
+**Márk Sági-Kazár**
+
+- Eng. Tech Lead @ Cisco
+- I write Go for a living (for 5+ years now)
+- Love OSS
+- Obsessed with DX
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+#
+
+![](tweet.png){.r-stretch fig-align="center"}
+
+# Once upon a time...
+
+---
+
+![](works-on-my-machine-ops.jpg){.r-stretch fig-align="center"}
+
+---
+
+![](works-on-my-machine-dev.jpg){.r-stretch fig-align="center"}
+
+---
+
+![](works-on-my-machine-ci.jpg){.r-stretch fig-align="center"}
+
+# Evolution
+
+## Production
+
+![](prod-timeline.embed.svg){.r-stretch fig-align="center"}
+
+## Development
+
+![](dev-timeline.embed.svg){.r-stretch fig-align="center"}
+
+## What's common?
+
+- Level of isolation
+- Abstraction
+
+## CI
+
+**???**
+
+---
+
+[The Perfect Development Environment](https://sagikazarmark.hu/blog/the-perfect-development-environment-2022/)
+
+tl;dr: Dev != CI
+
+# Why <img src="logo.svg"> is the best
+
+- Right level of isolation
+- Well-positioned abstraction
+
+---
+
+![](tweet.png){.r-stretch fig-align="center"}
+
+# The End
+
+Questions?
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
