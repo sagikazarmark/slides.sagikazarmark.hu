@@ -32,6 +32,8 @@ Help engineering teams run their business on Kubernetes
 
 [https://sagikazarmark.hu](https://sagikazarmark.hu)
 
+# Once upon a time..
+
 # Why is secret rotation important?
 
 - Maintain security of sensitive information
@@ -43,7 +45,6 @@ Help engineering teams run their business on Kubernetes
 - Complexity
 - Time-consuming and error prone process
 - Disruption of service availability
-- Lack of standardization
 
 # Secret rotation should be...
 
@@ -71,7 +72,7 @@ sequenceDiagram
     Deploy->>Production: Deploy new secret
 ```
 
-## Fully automated secret rotation {.center}
+## Fully automated secret rotation {visibility="hidden"}
 
 ```{mermaid}
 sequenceDiagram
@@ -97,11 +98,13 @@ sequenceDiagram
 - Synchronize secrets from an external store to Kubernetes secrets
 - Mount secrets as usual (env var, file)
 
-<br>
-
-::: {.fragment style="text-align: center;"}
-**How can we reload env vars?**
+::: {.callout-important}
+**Turn on envelope encryption!!!**
 :::
+
+---
+
+![](secret-changed-now-what.png){.r-stretch fig-align="center"}
 
 ## Triggering workload rollout
 
@@ -109,7 +112,7 @@ sequenceDiagram
 - Detects secret changes
 - Triggers rollout for workloads referencing changed secrets
 
-## {.center}
+---
 
 ```{mermaid}
 sequenceDiagram
