@@ -131,6 +131,10 @@ sequenceDiagram
 
 # Demo {background-color="#326ce5"}
 
+::: {style="font-size: 30px;"}
+https://github.com/sagikazarmark/demo-fosdem23-kube-secret-rotation
+:::
+
 # Thank you
 
 _Any questions?_
