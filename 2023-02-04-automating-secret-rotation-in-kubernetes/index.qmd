@@ -1,7 +1,7 @@
 ---
 title: "Automating secret rotation in Kubernetes"
 subtitle: "Minimizing mistakes by removing the human element"
-date: 2023-02-04
+date: "2023-02-04 15:40"
 event: "FOSDEM '23"
 description: |
     For years there was this notion that Kubernetes secrets are inherently insecure. There are certainly concerns about how Kubernetes stores and handles secrets, but base64 encoding (that most people often call out) is not the issue.

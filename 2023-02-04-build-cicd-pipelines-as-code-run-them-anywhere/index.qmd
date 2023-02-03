@@ -1,6 +1,6 @@
 ---
 title: "Build CI/CD pipelines as code, run them anywhere"
-date: 2023-02-04
+date: "2023-02-04 18:00"
 event: "FOSDEM '23"
 description: |
     Dagger is a programmable CI/CD engine that runs pipelines in containers allowing developers to build and debug pipelines locally and then run them anywhere avoiding vendor lock-in to a particular CI/CD solution.
