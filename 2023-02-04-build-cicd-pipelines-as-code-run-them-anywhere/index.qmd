@@ -36,12 +36,6 @@ Help engineering teams focus on their business
 
 [https://sagikazarmark.hu](https://sagikazarmark.hu)
 
-# Agenda
-
-- Challenges of CI/CD today
-- Why Dagger?
-- Demo
-
 # Challenges of CI/CD today
 
 ---
@@ -58,25 +52,26 @@ Help engineering teams focus on their business
 
 # Why Dagger?
 
-- Local testing
 - Portable (run CI/CD anywhere)
 - Write pipelines in your preferred language
-- Caching
 - Avoid vendor lock-in
+- Caching
 
 ---
 
 ![](containers-everywhere.png){.r-stretch fig-align="center"}
 
----
+## {.nostretch}
 
-![](dagger-flow.png){.r-stretch fig-align="center"}
+![](dagger-flow.svg){fig-align="center"}
+
+# Demo {background-color="#131225"}
 
 # Getting started
 
-[Playground](https://play.dagger.cloud/playground)
-
-# Demo {background-color="#131225"}
+- [Documentation](https://docs.dagger.io/)
+- [Quickstart](https://devel.docs.dagger.io/648215/quickstart/) _(new)_
+- [Playground](https://play.dagger.cloud/playground)
 
 # Thank you
 
