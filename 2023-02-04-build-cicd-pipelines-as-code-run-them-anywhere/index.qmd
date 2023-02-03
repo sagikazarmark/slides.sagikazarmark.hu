@@ -70,7 +70,7 @@ Help engineering teams focus on their business
 # Getting started
 
 - [Documentation](https://docs.dagger.io/)
-- [Quickstart](https://devel.docs.dagger.io/648215/quickstart/) _(new)_
+- [Quickstart](https://docs.dagger.io/648215/quickstart/) _(new)_
 - [Playground](https://play.dagger.cloud/playground)
 
 # Thank you
