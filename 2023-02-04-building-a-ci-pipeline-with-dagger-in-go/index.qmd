@@ -67,6 +67,10 @@ Help engineering teams focus on their business
 
 # Demo {background-color="#02add8"}
 
+::: {style="font-size: 30px;"}
+https://github.com/sagikazarmark/dagger-go-example
+:::
+
 # Getting started
 
 - [Documentation](https://docs.dagger.io/)
