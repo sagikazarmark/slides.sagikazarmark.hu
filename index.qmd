@@ -24,7 +24,7 @@ Try the [PDF Export mode](https://quarto.org/docs/presentations/revealjs/present
 Alternatively (and sometimes for better result), use [decktape](https://github.com/astefanutti/decktape):
 
 ```shell
-decktape --size='1920x1080' 'http://slides.sagikazarmark.hu/path/to/slides' slides.pdf
+decktape --size='2048x1536' 'http://slides.sagikazarmark.hu/path/to/slides' slides.pdf
 ```
 
 <br>
