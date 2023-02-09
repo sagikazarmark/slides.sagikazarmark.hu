@@ -15,13 +15,33 @@
         "type": "github"
       }
     },
+    "mynur": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1675730218,
+        "narHash": "sha256-a5hwWGFQMtGF8/JQvjzhzjtK14AiatvNvXLpS1abLTI=",
+        "owner": "sagikazarmark",
+        "repo": "nur-packages",
+        "rev": "f0bb0825bb2e80e7e76fbdd4906a366e8bd0d064",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sagikazarmark",
+        "repo": "nur-packages",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1673631141,
-        "narHash": "sha256-AprpYQ5JvLS4wQG/ghm2UriZ9QZXvAwh1HlgA/6ZEVQ=",
+        "lastModified": 1675545634,
+        "narHash": "sha256-TbQeQcM5TA/wIho6xtzG+inUfiGzUXi8ewwttiQWYJE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "befc83905c965adfd33e5cae49acb0351f6e0404",
+        "rev": "0591d6b57bfeb55dfeec99a671843337bc2c3323",
         "type": "github"
       },
       "original": {
@@ -33,6 +53,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "mynur": "mynur",
         "nixpkgs": "nixpkgs"
       }
     }
