@@ -12,7 +12,7 @@ format:
   revealjs:
     theme: default
     title-slide-attributes:
-        data-background-color: "#02add8"
+      data-background-color: "#02add8"
 ---
 
 # `whoami`

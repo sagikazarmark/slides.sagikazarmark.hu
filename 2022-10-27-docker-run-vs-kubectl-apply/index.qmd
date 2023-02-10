@@ -1,0 +1,297 @@
+---
+title: "docker run vs. kubectl apply"
+date: 2022-10-27
+event: "Let's Code meetup"
+categories: [containers, kubernetes, docker]
+image: preview.png
+format:
+  revealjs:
+    theme: default
+    title-slide-attributes:
+      data-background-color: "#326ce5"
+---
+
+# Hello!
+
+**Márk Sági-Kazár**
+
+_SRE Tech Lead @ Cisco_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+# Agenda
+
+- Containers
+- Docker
+- Kubernetes
+- Summary
+
+# Containers
+
+## What is a container?
+
+::: {.incremental}
+- Isolated Linux process _(well...usually)_
+- ”Virtualized OS”
+  - Filesystem
+  - Network
+  - etc
+:::
+
+## Container components
+
+::: {.incremental}
+- Root filesystem (container image)
+- Command (+argumants)
+- Environment variables
+- etc
+:::
+
+## Advantages of containers
+
+::: {.incremental}
+- Run applications in isolation
+- Package applications into portable bundles
+:::
+
+## OCI: Open Container Initiative {.nostretch}
+
+- Open standards for containers
+- Founded by Docker
+- Linux Foundation project
+- [https://opencontainers.org](https://opencontainers.org)
+
+![](oci-logo.svg){fig-align="center" height="100"}
+
+## OCI specs
+
+- Runtime
+- Image ("Docker image")
+- Distribution ("Docker registry")
+
+[https://specs.opencontainers.org](https://specs.opencontainers.org)
+
+---
+
+![](oci.embed.svg){fig-align="center"}
+
+## OCI Runtime
+
+- Bundle
+  - Root FS
+  - Config (command, limits, mounts, etc)
+- Runtime starts the container ^[_(usually) an isolated Linux process, VM, etc_]
+
+<br>
+<br>
+
+## Container runtime: runc
+
+- OCI-compatible runtime (ref. implementation)
+- Extracted from Docker
+- Single executable
+- Launches containers as isolated Linux processes
+
+## Other OCI runtimes
+
+- crun (written in C, can be used as a lib)
+- runsc (user-space implementation)
+
+## Container management
+
+- OCI runtime: low-level (manages one container)
+- Need a „high-level” runtime to
+  - Manage multiple containers
+  - Manage container images
+  - Manage cross-container networking
+  - etc
+
+## Container runtime: containerd
+
+- Extracted from Docker
+- Used runc as the low-level OCI-runtime (in the past)
+- Pluggable low-level runtimes through shims
+- Available shims: runc, firecracker, etc
+
+![](containerd-logo.svg){fig-align="center" height="100"}
+
+---
+
+![](containerd-arch.embed.svg){fig-align="center"}
+
+## Container runtime: cri-o
+
+- Kubernetes-centric container runtime
+- Integrates OCI-runtimes
+- Implements CRI: _Container Runtime Interface_
+
+![](crio-logo.svg){fig-align="center" height="100"}
+
+## CRI: Container Runtime Interface
+
+- gRPC API for managing containers
+- Runtimes: containerd, cri-o
+- Remember dockershim?
+
+---
+
+![](kubernetes-cri.embed.svg){fig-align="center"}
+
+## Container runtime???
+
+- Low-level: OCI-runtime
+- High-level
+  - Container „manager” / „engine”
+  - Interacts with low-level runtimes
+
+---
+
+![](container-runtime.embed.svg){fig-align="center"}
+
+# Docker {background-color="#4b95e6"}
+
+## Docker environments
+
+- **Docker Engine**
+- Docker Swarm
+- Docker Desktop
+
+---
+
+![](docker-general-architecture.embed.svg){fig-align="center"}
+
+---
+
+![](docker-legacy-architecture.embed.svg){fig-align="center"}
+
+---
+
+![](docker-architecture.embed.svg){fig-align="center"}
+
+# Kubernetes {background-color="#326ce5"}
+
+---
+
+![](kubernetes-general-architecture.embed.svg){fig-align="center"}
+
+## Pods vs containers
+
+- Smallest deployable unit
+- One or more containers
+- Shared storage and networking
+- Scaling unit
+
+---
+
+```{.yaml code-line-numbers="|8"}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.14.2
+      ports:
+        - containerPort: 8
+```
+
+---
+
+![](kube-kubectl.embed.svg){fig-align="center"}
+
+## Kubernetes API server
+
+- Control plane frontend
+- Stores desired state
+- Tracks actual state
+
+---
+
+![](kube-api-server.embed.svg){fig-align="center"}
+
+## Scheduler
+
+- Finds the best Node to run the Pod on
+- Scheduling operation:
+  - Filtering
+  - Scoring
+
+---
+
+![](kube-scheduler.embed.svg){fig-align="center"}
+
+## Kubelet
+
+- Node agent
+- Gets the list of Pods from the API server
+- Ensures that the containers in Pods are running and healthy
+
+---
+
+![](kube-kubelet.embed.svg){fig-align="center"}
+
+## CRI: Container Runtime Interface
+
+- gRPC API for managing containers
+- Runtimes: containerd, cri-o
+- Remember dockershim?
+
+---
+
+![](kube-everything.embed.svg){fig-align="center"}
+
+# Summary
+
+## Differences
+
+- Docker: manage containers directly (well...usually)
+- Kube: configure desired state, Kubernetes „makes it happen”
+
+<br>
+
+- Docker: containerd+runc
+- Kube: CRI
+
+## Similarities
+
+- Generally both uses OCI
+- Containerd is the most common runtime
+
+---
+
+![](container-runtime.embed.svg){fig-align="center"}
+
+# The End
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+# Read more
+
+[https://iximiuz.com/en/posts/journey-from-containerization-to-orchestration-and-beyond/](https://iximiuz.com/en/posts/journey-from-containerization-to-orchestration-and-beyond/)
+
+[https://mkdev.me/posts/dockerless-part-1-which-tools-to-replace-docker-with-and-why](https://mkdev.me/posts/dockerless-part-1-which-tools-to-replace-docker-with-and-why)
+
+[https://iximiuz.com/en/posts/implementing-container-runtime-shim/](https://iximiuz.com/en/posts/implementing-container-runtime-shim/)
+
+[https://twitter.com/iximiuz/status/1433694551940681754](https://twitter.com/iximiuz/status/1433694551940681754)
+
+[https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes/](https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes/)
+
+[https://unit42.paloaltonetworks.com/making-containers-more-isolated-an-overview-of-sandboxed-container-technologies/](https://unit42.paloaltonetworks.com/making-containers-more-isolated-an-overview-of-sandboxed-container-technologies/)
