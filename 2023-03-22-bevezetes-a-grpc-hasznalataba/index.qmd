@@ -1,0 +1,213 @@
+---
+title: "Bevezetés a gRPC használatába"
+subtitle: "Élet a SOAP és a REST után"
+date: "2023-03-22 18:00"
+event: "HWSW meetup"
+lang: hu
+categories: [go, grpc]
+image: preview.png
+format:
+  revealjs:
+    theme: serif
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Engineering Technical Lead @ Cisco_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+# Agenda
+
+- About RPC
+- RPC vs REST
+- Introduction to gRPC
+- Implementing a gRPC service
+- Advanced features
+- When to use gRPC?
+- Alternatives
+
+# About RPC
+
+## Definition 🤔
+
+> [...] a computer program causes a procedure (subroutine) to execute **in a different address space**
+> (commonly on _another computer on a shared network_), which is coded as if it were a **normal (local) procedure call**,
+> **without** the programmer explicitly coding the **details for the remote interaction**
+>
+> _[Wikipedia](https://en.wikipedia.org/wiki/Remote_procedure_call)_
+
+## Definition
+
+- **in a different address space** → someone else's computer
+- **normal (local) procedure call** → interface
+- **no details for the remote interaction** → implementation
+
+## {.nostretch background-color="white"}
+
+![[Source](https://www.geeksforgeeks.org/remote-procedure-call-rpc-in-operating-system/)](assets/rpc-overview.png){fig-align="center"}
+
+## Interface Definition Language
+
+- a language for describing communication
+- programming language agnostic
+- serves as a contract for RPC APIs
+
+# RPC vs REST
+
+---
+
+|                       | **RPC**                          | **REST**                     |
+|-----------------------|----------------------------------|------------------------------|
+| _Operates on_         | procedures<br>("function calls") | resources                    |
+| _Underlying protocol_ | unspecified                      | primarily HTTP               |
+| _Interactions_        | protocol encapsulated            | HTTP is part of the contract |
+
+---
+
+- RPC is more suitable for APIs describing _actions_ (vs _resources_)
+- RPC has better type-safety guarantees
+- RPC is more strict
+- REST may be more performant when operating on large amount of data
+
+## RPC example in HTTP
+
+```http
+POST /sayHello HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+{
+  "userId": 1
+}
+```
+
+## REST example
+
+```http
+GET /users/1/greeting HTTP/1.1
+Host: api.example.com
+```
+
+# Introduction to gRPC
+
+## About gRPC
+
+- High performance
+- Language agnostic ([supported languages](https://grpc.io/docs/languages/))
+- Uses http/2 transport
+- Bi-directional streaming
+- Pluggable auth, tracing, load balancing and health checking
+
+## {.nostretch}
+
+![[Source](https://grpc.io/docs/what-is-grpc/introduction/)](assets/grpc-overview.svg){fig-align="center"}
+
+## IDL: Protocol Buffers
+
+- Interface Definition Language
+- Message format (binary serialization)
+- Code generation framework
+
+## Example 1: Protocol Buffers
+
+# Implementing a gRPC service
+
+## Example 2: Service definition and server implementation
+
+## Example 3: Using the client stub
+
+## RPC lifecycle
+
+- _Unary RPC_
+- Server streaming RPC
+- Client streaming RPC
+- Bidirectional streaming RPC
+
+## Example 4: Server streaming RPC
+
+# Advanced features
+
+---
+
+- [Authentication](https://grpc.io/docs/guides/auth/)
+- Metadata
+- [Error handling](https://grpc.io/docs/guides/error/)
+
+## Example 5: Authentication and error handling
+
+## Interceptors
+
+- Act as middlewares during the request lifecycle
+- Server vs Client
+- Unary vs Stream
+
+## Example 6: Server unary interceptor
+
+# When to use gRPC?
+
+---
+
+> With great power comes great responsibility
+
+---
+
+- API operates on _actions_ instead of _resources_
+- When efficient communication is a goal
+- In polyglot environments
+- No need for supporting a wide range of clients
+- Internal APIs
+
+_whisper_ microservices
+
+## gRPC shortcomings
+
+- Limited web/browser support
+- Not human-readable format (more difficult to debug)
+- Steeper learning curve
+
+# Alternatives
+
+## Twirp
+
+Developed at Twitch as a lightweight alternative to gRPC.
+
+<br>
+
+[https://github.com/twitchtv/twirp](https://github.com/twitchtv/twirp)
+
+<br>
+
+Read the [announcement blog post](https://blog.twitch.tv/en/2018/01/16/twirp-a-sweet-new-rpc-framework-for-go-5f2febbf35f/).
+
+## Connect
+
+A gRPC-compatible framework with an emphasis on browser- and web-compatibility (from the creators of [Buf](https://buf.build/)).
+
+<br>
+
+[https://connect.build/](https://connect.build/)
+
+# The End
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+# Further reading
+
+- https://grpc.io/
+- https://protobuf.dev/
+- https://github.com/grpc-ecosystem
