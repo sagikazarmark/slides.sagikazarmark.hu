@@ -34,6 +34,10 @@ _Engineering Technical Lead @ Cisco_
 - When to use gRPC?
 - Alternatives
 
+# Code samples
+
+[https://github.com/sagikazarmark/grpc-intro-workshop](https://github.com/sagikazarmark/grpc-intro-workshop)
+
 # About RPC
 
 ## Definition 🤔
