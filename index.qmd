@@ -4,7 +4,7 @@ listing:
   contents: .
   sort: "date desc"
   type: default
-  fields: [image, date, title, subtitle, categories]
+  fields: [date, title, subtitle, categories, event]
   categories: true
   sort-ui: false
   filter-ui: false
