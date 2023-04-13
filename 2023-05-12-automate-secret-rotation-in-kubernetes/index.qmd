@@ -1,0 +1,152 @@
+---
+title: "Automate secret rotation in Kubernetes, then get out of the way!"
+date: "2023-05-12 11:00"
+event: "Open Source Summit NA 2023"
+description: |
+  Industry best practices say that we should rotate secrets frequently to ensure our systems and data stay safe, but doing that in an operationally safe way is often a challenge.
+  Not only that, but due to the vast number of regulations and compliance requirements, different secret management solutions, even figuring out where to start can be hard.
+
+  In his presentation, Mark will provide guidance to understand the landscape of secret management and rotation solutions in Kubernetes and will show you how to set up and operate them in a safe and reliable,
+  but more importantly, automated way. You might have seen Mark's presentation about the same subject at FOSDEM '23.
+  Due to time constraints that was a brief, introductory talk. This time, Mark will go into details about monitoring your secret management infrastructure,
+  so you can be sure your secrets are rotated. He will also offer alternative solutions to Kubernetes secrets if you are in no position to trust your provider. 
+categories: [kubernetes, "secret management"]
+image: preview.png
+format:
+  revealjs:
+    theme: default
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "#326ce5"
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Engineering Technical Lead @ Cisco_
+
+CNCF Ambassador
+
+<br>
+Help engineering teams run their business on Kubernetes
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+# Once upon a time..
+
+# Why is secret rotation important?
+
+- Maintain security of sensitive information
+- Meet compliance requirements
+- Reduce the risk of a data breach
+
+# Challenges of secret rotation
+
+- Complexity
+- Time-consuming and error prone process
+- Disruption of service availability
+
+# Secret rotation should be...
+
+- possible
+- automated
+- periodic
+
+# Secret rotation flow
+
+```{mermaid}
+sequenceDiagram
+    actor Operator
+    participant Provider as Secret provider
+    participant Store as Secret store
+    participant Deploy as ???
+    participant Production
+
+    Deploy->>Store: Watch for changes
+    activate Deploy
+    Operator->>Provider: Generate new secret
+    Provider-->>Operator: Return new secret
+    Operator->>Store: Rotate secret in store
+    Store-->>Deploy: Notice secret change
+    deactivate Deploy
+    Deploy->>Production: Deploy new secret
+```
+
+## Fully automated secret rotation {visibility="hidden"}
+
+```{mermaid}
+sequenceDiagram
+    participant Provider as Secret provider
+    participant Store as Secret store
+    participant Deploy as ???
+    participant Production
+
+    Deploy->>Store: Watch for changes
+    activate Deploy
+    Store->>Provider: Generate new secret
+    Provider-->>Store: Save new secret
+    Store-->>Deploy: Notice secret change
+    deactivate Deploy
+    Deploy->>Production: Deploy new secret
+```
+
+# Secret rotation in Kubernetes
+
+## Deploying secrets to Kubernetes
+
+- External Secrets: [https://external-secrets.io](https://external-secrets.io)
+- Synchronize secrets from an external store to Kubernetes secrets
+- Mount secrets as usual (env var, file)
+
+::: {.callout-important}
+**Turn on envelope encryption!!!**
+:::
+
+---
+
+![](secret-changed-now-what.png){.r-stretch fig-align="center"}
+
+## Triggering workload rollout
+
+- Reloader: [https://github.com/stakater/Reloader](https://github.com/stakater/Reloader)
+- Detects secret changes
+- Triggers rollout for workloads referencing changed secrets
+
+---
+
+```{mermaid}
+sequenceDiagram
+    participant Store as Secret store
+    participant ExternalSecrets as External secrets
+    participant Kubernetes
+    participant Reloader
+
+    ExternalSecrets->>Store: Watch for changes
+    Reloader->>Kubernetes: Watch for changes
+    Store-->>ExternalSecrets: Notice secret change
+    ExternalSecrets->>Kubernetes: Deploy new secret
+    Kubernetes-->>Reloader: Notice secret change
+    Reloader->>Kubernetes: Trigger workload rollout
+```
+
+# Demo {background-color="#326ce5"}
+
+::: {style="font-size: 30px;"}
+https://github.com/sagikazarmark/demo-fosdem23-kube-secret-rotation
+:::
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
