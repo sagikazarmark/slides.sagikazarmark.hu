@@ -9,27 +9,31 @@ description: |
   In his presentation, Mark will provide guidance to understand the landscape of secret management and rotation solutions in Kubernetes and will show you how to set up and operate them in a safe and reliable,
   but more importantly, automated way. You might have seen Mark's presentation about the same subject at FOSDEM '23.
   Due to time constraints that was a brief, introductory talk. This time, Mark will go into details about monitoring your secret management infrastructure,
-  so you can be sure your secrets are rotated. He will also offer alternative solutions to Kubernetes secrets if you are in no position to trust your provider. 
+  so you can be sure your secrets are rotated. He will also offer alternative solutions to Kubernetes secrets if you are in no position to trust your provider.
 categories: [kubernetes, "secret management"]
 image: preview.png
 format:
   revealjs:
-    theme: default
+    theme: [default, custom.scss]
     navigation-mode: vertical
     title-slide-attributes:
-      data-background-color: "#326ce5"
+      data-background-color: black
+      data-background-image: title-bg.png
+      data-background-transition: slide
+      # data-background-color: "#326ce5"
+    logo: lf-logo.svg
 ---
 
 # `whoami`
 
 **Márk Sági-Kazár**
 
-_Engineering Technical Lead @ Cisco_
+_Open Source Tech Lead @ Cisco_
 
 CNCF Ambassador
 
 <br>
-Help engineering teams run their business on Kubernetes
+Empowering engineering teams to focus on their core business objectives, while seamlessly running their applications on Kubernetes.
 <br>
 <br>
 
@@ -150,3 +154,5 @@ _Any questions?_
 [@sagikazarmark](https://twitter.com/sagikazarmark)
 
 [https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+# {#last background-color="black" background-image="last.png" background-transition="slide"}
