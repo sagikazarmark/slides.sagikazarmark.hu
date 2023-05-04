@@ -33,7 +33,6 @@ _Open Source Tech Lead @ Cisco_
 CNCF Ambassador
 
 <br>
-Empowering engineering teams to focus on their core business objectives, while seamlessly running their applications on Kubernetes.
 <br>
 <br>
 
@@ -41,7 +40,69 @@ Empowering engineering teams to focus on their core business objectives, while s
 
 [https://sagikazarmark.hu](https://sagikazarmark.hu)
 
-# Once upon a time..
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+::: {.notes}
+Empowering engineering teams to focus on their core business objectives, while seamlessly running their applications on Kubernetes.
+:::
+
+# Once upon a time...
+
+::: {.notes}
+I was in a debugging session in the middle of the night.
+There was an AWS permission issue in one of the applications, but as it turned out, the application was calling something that it shouldn't have.
+I grabbed the credentials from the dev environment.
+:::
+
+## {#envelope-encryption}
+
+![](assets/envelope-encryption.png){fig-align="center"}
+
+::: {.notes}
+One of the most common misconecptions about Kubernetes secrets is that they are insecure because of the use of base64 encoding.
+:::
+
+## {#rbac}
+
+![](assets/rbac.png){fig-align="center"}
+
+## Your secrets WILL be compromised...
+
+~~When?~~
+
+What are you going to do about it?
+
+# {#rotate-all-secrets}
+
+![](assets/rotate-all-secrets.png){fig-align="center"}
+
+# Secret lifecycle
+
+:::: {.columns}
+
+::: {.column width="80%"}
+
+- Short-lived (eg. workload identity tokens)
+- Long-lived (static credentials)
+
+:::
+
+::: {.column width="20%"}
+
+::: {.fragment style="margin-top: 0.4em; margin-bottom: 0.2em;"}
+✅
+:::
+
+::: {.fragment style="margin-top: 0.4em; margin-bottom: 0.2em;"}
+❌
+:::
+
+:::
+
+::::
+
 
 # Why is secret rotation important?
 
@@ -49,11 +110,14 @@ Empowering engineering teams to focus on their core business objectives, while s
 - Meet compliance requirements
 - Reduce the risk of a data breach
 
-# Challenges of secret rotation
+# Challenges of secret rotation ^[When done manually]
 
 - Complexity
 - Time-consuming and error prone process
 - Disruption of service availability
+
+<br>
+<br>
 
 # Secret rotation should be...
 
@@ -113,7 +177,7 @@ sequenceDiagram
 
 ---
 
-![](secret-changed-now-what.png){.r-stretch fig-align="center"}
+![](assets/secret-changed-now-what.png){.r-stretch fig-align="center"}
 
 ## Triggering workload rollout
 
@@ -154,5 +218,7 @@ _Any questions?_
 [@sagikazarmark](https://twitter.com/sagikazarmark)
 
 [https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
 
 # {#last background-color="black" background-image="last.png" background-transition="slide"}
