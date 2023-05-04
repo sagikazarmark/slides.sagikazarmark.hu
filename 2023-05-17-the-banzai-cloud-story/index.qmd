@@ -1,0 +1,61 @@
+---
+title: "The Banzai Cloud story"
+date: "2023-05-17 18:00"
+event: "CN Szeged meetup"
+lang: en
+categories: [startup]
+image: preview.png
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "#1e1973"
+      data-background-transition: slide
+    logo: bc-logo.svg
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Open Source Tech Lead @ Cisco_
+
+CNCF Ambassador
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+# Timeline
+
+# Daily life
+
+# Product strategy
+
+# Marketing
+
+# Engineering work
+
+- We were building products for engineers
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
