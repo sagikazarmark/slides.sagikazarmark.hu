@@ -10,3 +10,7 @@
 .reveal .slide-logo {
   max-height: 8rem !important;
 }
+
+.reveal.has-dark-background .slide-logo {
+  display: none !important;
+}
