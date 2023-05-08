@@ -217,7 +217,7 @@ sequenceDiagram
 
 - [Metrics](https://external-secrets.io/main/api/metrics/#external-secret-metrics) and [SLI recommendations](https://external-secrets.io/main/api/metrics/#service-level-indicators-and-alerts)
   - Potential high cardinality labels (configure `ServiceMonitor` to drop resource names)
-- [Grafana dashboard](https://external-secrets.io/main/api/metrics/#dashboard) (needs improvements)
+- [Grafana dashboard](https://external-secrets.io/main/api/metrics/#dashboard) ([needs improvements](https://github.com/external-secrets/external-secrets/issues/2301))
 
 ## Changes take effect with a delay
 
@@ -243,21 +243,74 @@ _Requirement: Use store validation._
 ## To sum up ESO
 
 - Understand how (and **when**) changes will take effect
-- Monitor and alert for faliures
+- Monitor and alert for failures
 
 # A world without Kubernetes secrets
 
 ## Bank-Vaults
+
+- Started at Banzai Cloud
+- Vault Swiss Army knife
+- Inject secrets directly into Pods
+
+![](assets/bv-logo.png){.absolute top=-100 right=0 width="300" style="max-height: none;"}
+
+## Secret injection
+
+- Secret references: `vault:path/to/secret#KEY`
+- Mutating webhook
+  - Detect secret references
+  - Mutate Pods to add a **custom init** to the container
+- Custom init replaces secret references with actual values
+
+::: {.callout-warning}
+Secret changes do not take effect (ie. trigger workload reload) at the moment.
+:::
+
+## Risks and mitigations
+
+::: {.fragment}
+**Risk:** Secret store is a [SPOF](https://en.wikipedia.org/wiki/Single_point_of_failure)
+
+**Mitigation:** Maintain a cluster-local instance
+:::
+
+<hr>
+
+::: {.fragment}
+**Risk:** Webhook is a [SPOF](https://en.wikipedia.org/wiki/Single_point_of_failure)
+
+**Mitigation:** Configure webhook according to [best practices](https://techblog.cisco.com/blog/dark-side-of-kubernetes-admission-webhooks)
+:::
 
 ## Alternatives
 
 - [Kamus](https://github.com/Soluto/kamus)
 - [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)
 
+## Bank-Vaults Roadmap
+
+- Moving to a [new GitHub organization](https://github.com/bank-vaults)
+- Workload reload on secret change
+- Support for more providers
+- Secret synchronization between _providers_
+- **Your desired feature** (submit a new [feature request](https://github.com/banzaicloud/bank-vaults/discussions/new?category=ideas))
+
 # Demo {background-color="#326ce5"}
 
 ::: {style="font-size: 30px;"}
 https://github.com/sagikazarmark/demo-oss-na-2023-kube-secret-rotation
+:::
+
+# Final thoughts
+
+> **_It seems wisest to assume the worst from the beginning...and let anything better come as a surprise._**
+
+--- [Jules Verne](https://www.goodreads.com/quotes/659128-it-seems-wisest-to-assume-the-worst-from-the-beginning-and)
+
+::: {.notes}
+- Prepare for the worst
+- Understand the trade-offs and limitations of each solution
 :::
 
 # Thank you
