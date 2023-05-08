@@ -20,7 +20,6 @@ format:
       data-background-color: black
       data-background-image: title-bg.png
       data-background-transition: slide
-      # data-background-color: "#326ce5"
     logo: lf-logo.svg
 ---
 
@@ -78,7 +77,7 @@ What are you going to do about it?
 
 ![](assets/rotate-all-secrets.png){fig-align="center"}
 
-# Secret lifecycle
+# Secret lifecycle {visibility="hidden"}
 
 :::: {.columns}
 
@@ -103,21 +102,17 @@ What are you going to do about it?
 
 ::::
 
-
 # Why is secret rotation important?
 
 - Maintain security of sensitive information
 - Meet compliance requirements
 - Reduce the risk of a data breach
 
-# Challenges of secret rotation ^[When done manually]
+# Challenges of secret rotation
 
 - Complexity
 - Time-consuming and error prone process
 - Disruption of service availability
-
-<br>
-<br>
 
 # Secret rotation should be...
 
@@ -165,17 +160,31 @@ sequenceDiagram
 
 # Secret rotation in Kubernetes
 
+## Plug the holes first!
+
+- Turn on encryption at rest
+- Configure least-privilege access to Secrets
+
+<br>
+
+Official guide: [Good practices for Kubernetes Secrets](https://kubernetes.io/docs/concepts/security/secrets-good-practices/)
+
 ## Deploying secrets to Kubernetes
 
-- External Secrets: [https://external-secrets.io](https://external-secrets.io)
-- Synchronize secrets from an external store to Kubernetes secrets
+- External Secrets Operator (ESO): [https://external-secrets.io](https://external-secrets.io)
+- Synchronize secrets from an **external store** to Kubernetes
 - Mount secrets as usual (env var, file)
 
-::: {.callout-important}
-**Turn on envelope encryption!!!**
-:::
+## {#external-secrets-graph}
 
----
+![](assets/external-secrets-graph.embed.svg){fig-align="center"}
+
+## Alternatives
+
+- [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets)
+- [SOPS](https://github.com/mozilla/sops) (+ [operator](https://github.com/isindir/sops-secrets-operator)/[Helm secrets](https://github.com/jkroepke/helm-secrets))
+
+## {#secret-changed-now-what}
 
 ![](assets/secret-changed-now-what.png){.r-stretch fig-align="center"}
 
@@ -202,10 +211,53 @@ sequenceDiagram
     Reloader->>Kubernetes: Trigger workload rollout
 ```
 
+## What could possibly go wrong?
+
+## Who knows, so monitor everything
+
+- [Metrics](https://external-secrets.io/main/api/metrics/#external-secret-metrics) and [SLI recommendations](https://external-secrets.io/main/api/metrics/#service-level-indicators-and-alerts)
+  - Potential high cardinality labels (configure `ServiceMonitor` to drop resource names)
+- [Grafana dashboard](https://external-secrets.io/main/api/metrics/#dashboard) (needs improvements)
+
+## Changes take effect with a delay
+
+1. Change some configuration ✏️
+2. Wait until the next secret sync period 🤞
+3. Hope nothing breaks 🙏
+
+**Solution:** create (and modify) test secrets at the same time.
+
+## Cascading effect of an outage ^[May not be a problem anymore]
+
+_Requirement: Use store validation._
+
+1. Provider goes down for a long time (ie. hours) ❌
+2. Store validation reaches a backoff of hours ⏳
+3. Secret synchronization essentially stops 😱
+
+**Solution:** Bump every `(Cluster)SecretStore` after an outage.
+
+<br>
+<br>
+
+## To sum up ESO
+
+- Understand how (and **when**) changes will take effect
+- Monitor and alert for faliures
+
+# A world without Kubernetes secrets
+
+## Bank-Vaults
+
+## Alternatives
+
+- [Kamus](https://github.com/Soluto/kamus)
+- [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)
+
 # Demo {background-color="#326ce5"}
 
 ::: {style="font-size: 30px;"}
-https://github.com/sagikazarmark/demo-fosdem23-kube-secret-rotation
+https://github.com/sagikazarmark/demo-oss-na-2023-kube-secret-rotation
 :::
 
 # Thank you
