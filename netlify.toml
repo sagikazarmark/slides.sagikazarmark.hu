@@ -1,2 +1,4 @@
 [[plugins]]
 package = "@quarto/netlify-plugin-quarto"
+  [plugins.inputs]
+  version = "1.2.475"
