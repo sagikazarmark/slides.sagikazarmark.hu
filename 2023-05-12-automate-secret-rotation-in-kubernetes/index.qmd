@@ -245,13 +245,15 @@ _Requirement: Use store validation._
 - Understand how (and **when**) changes will take effect
 - Monitor and alert for failures
 
-# A world without Kubernetes secrets
+# No Kubernetes secrets
 
 ## Bank-Vaults
 
 - Started at Banzai Cloud
 - Vault Swiss Army knife
 - Inject secrets directly into Pods
+
+[https://bank-vaults.dev](https://bank-vaults.dev)
 
 ![](assets/bv-logo.png){.absolute top=-100 right=0 width="300" style="max-height: none;"}
 
