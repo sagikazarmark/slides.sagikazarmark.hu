@@ -160,7 +160,7 @@ sequenceDiagram
 
 # Secret rotation in Kubernetes
 
-## Plug the holes first!
+## ⚠️ Plug the holes first! ⚠️
 
 - Turn on encryption at rest
 - Configure least-privilege access to Secrets
@@ -216,8 +216,11 @@ sequenceDiagram
 ## Who knows, so monitor everything
 
 - [Metrics](https://external-secrets.io/main/api/metrics/#external-secret-metrics) and [SLI recommendations](https://external-secrets.io/main/api/metrics/#service-level-indicators-and-alerts)
-  - Potential high cardinality labels (configure `ServiceMonitor` to drop resource names)
 - [Grafana dashboard](https://external-secrets.io/main/api/metrics/#dashboard) ([needs improvements](https://github.com/external-secrets/external-secrets/issues/2301))
+
+::: {.callout-warning}
+Potential **high cardinality** labels (drop metrics/labels you don't need)
+:::
 
 ## Changes take effect with a delay
 
