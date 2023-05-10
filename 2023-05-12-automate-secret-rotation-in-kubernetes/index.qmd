@@ -248,24 +248,37 @@ _Requirement: Use store validation._
 - Understand how (and **when**) changes will take effect
 - Monitor and alert for failures
 
-# No Kubernetes secrets
+# Kubernetes without secrets 😱
+
+## Access secret store directly
+
+- Integrated into the application
+
+**OR**
+
+- "Inject" secrets into the application
+
+## Secret injection in Kubernetes
+
+- Inject a **custom init** into Pods using a [mutating admission webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#mutatingadmissionwebhook)
+- Get secrets from secret store in the custom init
+- Inject secrets as environment variables
 
 ## Bank-Vaults
 
 - Started at Banzai Cloud
 - Vault Swiss Army knife
-- Inject secrets directly into Pods
 
 [https://bank-vaults.dev](https://bank-vaults.dev)
 
 ![](assets/bv-logo.png){.absolute top=-100 right=0 width="300" style="max-height: none;"}
 
-## Secret injection
+## Bank-Vaults secret injection
 
 - Secret references: `vault:path/to/secret#KEY`
 - Mutating webhook
   - Detect secret references
-  - Mutate Pods to add a **custom init** to the container
+  - Mutate Pods
 - Custom init replaces secret references with actual values
 
 ::: {.callout-warning}
