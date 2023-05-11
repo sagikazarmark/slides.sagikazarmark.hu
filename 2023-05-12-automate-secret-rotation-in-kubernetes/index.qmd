@@ -67,6 +67,10 @@ One of the most common misconecptions about Kubernetes secrets is that they are 
 
 ![](assets/rbac.png){fig-align="center"}
 
+::: {.notes}
+This is actually one of my favorite.
+:::
+
 ## Your secrets WILL be compromised...
 
 ~~When?~~
@@ -76,6 +80,12 @@ What are you going to do about it?
 # {#rotate-all-secrets}
 
 ![](assets/rotate-all-secrets.png){fig-align="center"}
+
+::: {.notes}
+- Well, not all
+- Short-lived (eg. workload identity) tokens are OK
+- Long-lived (eg. static credentials) are problematic
+:::
 
 # Secret lifecycle {visibility="hidden"}
 
@@ -114,11 +124,19 @@ What are you going to do about it?
 - Time-consuming and error prone process
 - Disruption of service availability
 
+::: {.notes}
+Multi -cluster, -env, -tenant setups
+:::
+
 # Secret rotation should be...
 
 - possible
 - automated
 - periodic
+
+::: {.notes}
+Hard-coded secrets make it harder
+:::
 
 # Secret rotation flow
 
@@ -179,14 +197,28 @@ Official guide: [Good practices for Kubernetes Secrets](https://kubernetes.io/do
 
 ![](assets/external-secrets-graph.embed.svg){fig-align="center"}
 
+::: {.notes}
+Go into details, will be important later
+:::
+
 ## Alternatives
 
 - [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets)
 - [SOPS](https://github.com/mozilla/sops) (+ [operator](https://github.com/isindir/sops-secrets-operator)/[Helm secrets](https://github.com/jkroepke/helm-secrets))
 
+::: {.notes}
+- They don't scale well
+- Encryption requires the user to know the secret
+:::
+
 ## {#secret-changed-now-what}
 
 ![](assets/secret-changed-now-what.png){.r-stretch fig-align="center"}
+
+::: {.notes}
+- File changes must be detected by applications
+- Env vars cannot change
+:::
 
 ## Triggering workload rollout
 
@@ -327,6 +359,7 @@ https://github.com/sagikazarmark/demo-oss-na-2023-kube-secret-rotation
 --- [Jules Verne](https://www.goodreads.com/quotes/659128-it-seems-wisest-to-assume-the-worst-from-the-beginning-and)
 
 ::: {.notes}
+- May not be the best life advice/key to hapiness
 - Prepare for the worst
 - Understand the trade-offs and limitations of each solution
 :::
