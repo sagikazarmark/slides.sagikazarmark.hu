@@ -203,7 +203,9 @@ Official guide: [Good practices for Kubernetes Secrets](https://kubernetes.io/do
 ![](assets/external-secrets-graph.embed.svg){fig-align="center"}
 
 ::: {.notes}
-Go into details, will be important later
+- Go into details, will be important later
+- Secret store config (managed by platform team)
+- External secret (managed by dev team)
 :::
 
 ## Alternatives
@@ -295,11 +297,20 @@ _Requirement: Use store validation._
 
 - "Inject" secrets into the application
 
+::: {.notes}
+- Makes the application less portable
+- It's better to keep config management separate
+:::
+
 ## Secret injection in Kubernetes
 
 - Inject a **custom init** into Pods using a [mutating admission webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#mutatingadmissionwebhook)
 - Get secrets from secret store in the custom init
 - Inject secrets as environment variables
+
+::: {.notes}
+- There are file based solutions, but mostly env
+:::
 
 ## Bank-Vaults
 
