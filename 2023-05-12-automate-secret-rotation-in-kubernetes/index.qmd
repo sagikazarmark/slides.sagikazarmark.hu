@@ -193,6 +193,11 @@ Official guide: [Good practices for Kubernetes Secrets](https://kubernetes.io/do
 - Synchronize secrets from an **external store** to Kubernetes
 - Mount secrets as usual (env var, file)
 
+::: {.notes}
+- Configure sync via CR
+- Works well with GitOps
+:::
+
 ## {#external-secrets-graph}
 
 ![](assets/external-secrets-graph.embed.svg){fig-align="center"}
