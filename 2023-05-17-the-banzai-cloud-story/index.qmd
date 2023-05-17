@@ -4,7 +4,7 @@ date: "2023-05-17 18:00"
 event: "CN Szeged meetup"
 lang: en
 categories: [startup]
-image: preview.png
+# image: preview.png
 format:
   revealjs:
     theme: [default, custom.scss]
@@ -35,17 +35,126 @@ CNCF Ambassador
 
 ![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
 
-# Timeline
+# {#timeline .nostretch}
 
-# Daily life
+![](assets/timeline.svg){fig-align="center"}
 
-# Product strategy
+# Foundation
 
-# Marketing
+## Mission
 
-# Engineering work
+- "Azt nem lehet Dockerben futtatni"
+- Help companies with their digital transformation
 
-- We were building products for engineers
+::: {.notes}
+- Open-core products
+:::
+
+## Founders
+
+- ex-Ustream
+- ex-SequenceIQ
+
+::: {.notes}
+- Considerable startup experience
+- ...including how a startup shouldn't work
+:::
+
+# Lessons learnt
+
+## Product strategy & marketing
+
+- Products built by engineers for engineers
+- Tech blog 🡒 works...to some degree
+- Don't be afraid from 180 degree direction changes
+
+::: {.notes}
+- Comprehensive solutions from infrastructure management to application deployments
+:::
+
+## Go to market
+
+- US presence matters (aka. "Hungary? That's in South America, right?")
+- _Pro tip:_ find design partners **soon**
+
+::: {.notes}
+- Have a presence in the Bay area (San Diego meetup: senki nem ismert minket)
+:::
+
+## Office & social life
+
+- If you have an office: **use it!**
+- Social life matters (especially over 10 people)
+- Brownbag sessions (educate each other)
+
+::: {.notes}
+- Communicate, talk to each other (don't get isolated)
+- Covid made things worse
+:::
+
+## Hiring
+
+- We hired all available top talent
+- We needed more 🡒 we hired people capable to **learn**
+
+::: {.notes}
+- Interview process aimed to evaluate that
+- Homework assignment is still in use after ~5 years
+:::
+
+## Post-acquisition
+
+- Integration went reasonably well (compared to...others)
+- Product integration
+  - Original idea sounded reasonable
+  - Exection...ongoing
+
+::: {.notes}
+- 2 years path finding
+- Lost our competitive advantage
+:::
+
+# Life at Banzai
+
+---
+
+![](assets/office1.jpg)
+
+---
+
+![](assets/office2.jpg)
+
+---
+
+![](assets/office3.jpg)
+
+---
+
+![](assets/fuel1.jpg)
+
+---
+
+![](assets/fuel2.jpg)
+
+---
+
+![](assets/conf.jpg)
+
+---
+
+![](assets/social.jpg)
+
+---
+
+![](assets/sleep1.jpg)
+
+---
+
+![](assets/sleep2.jpg)
+
+---
+
+![](assets/acquisition.jpg)
 
 # Thank you
 
