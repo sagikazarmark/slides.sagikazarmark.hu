@@ -75,6 +75,7 @@ CNCF Ambassador
 ## Go to market
 
 - US presence matters (aka. "Hungary? That's in South America, right?")
+- Product market fit (aka. throw shit at the wall and see what sticks)
 - _Pro tip:_ find design partners **soon**
 
 ::: {.notes}
@@ -101,6 +102,11 @@ CNCF Ambassador
 - Interview process aimed to evaluate that
 - Homework assignment is still in use after ~5 years
 :::
+
+## Hard decisions
+
+- Letting people go
+- Letting products go
 
 ## Post-acquisition
 
