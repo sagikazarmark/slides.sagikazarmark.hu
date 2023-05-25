@@ -1,0 +1,218 @@
+---
+title: "Multi‑cluster, multi‑tenant secret management"
+date: "2023-05-25 6:00"
+event: "ESO meetup"
+description: |
+  Managing secrets
+categories: [kubernetes, "secret management"]
+image: preview.png
+format:
+  revealjs:
+    theme: default
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "#326ce5"
+      data-background-transition: slide
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Open Source Tech Lead @ Cisco_
+
+CNCF Ambassador
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+::: {.notes}
+Empowering engineering teams to focus on their core business objectives, while seamlessly running their applications on Kubernetes.
+:::
+
+# Cisco ET&I
+
+- Incubating org for emerging technology
+- Engineers generally don't have production operational experience
+- Infrastructure needs are served by a central platform engineering (SRE) team
+
+## {#cisco-eti-infra}
+
+![](assets/cisco-eti-infra.svg){fig-align="center"}
+
+## Challenges
+
+- Managing configuration across clusters, envs, tenants
+- Access control and resource management
+- Reducing the blast radius
+- Secret management and rotation (!)
+
+## Deployment model
+
+- GitOps
+- ArgoCD
+
+## Secret management (initial approach)
+
+- Central Hashicorp Vault (each team gets its own namespace)
+- ESO to sync secrets into clusters
+- Manual secret rotation :(
+
+# Challenges of secret rotation
+
+- Complexity
+- Time-consuming and error prone process
+- Disruption of service availability
+
+::: {.notes}
+Multi -cluster, -env, -tenant setups
+:::
+
+# Secret rotation flow
+
+```{mermaid}
+sequenceDiagram
+    actor Operator
+    participant Provider as Secret provider
+    participant Store as Secret store
+    participant Deploy as ???
+    participant Production
+
+    Deploy->>Store: Watch for changes
+    activate Deploy
+    Operator->>Provider: Generate new secret
+    Provider-->>Operator: Return new secret
+    Operator->>Store: Rotate secret in store
+    Store-->>Deploy: Notice secret change
+    deactivate Deploy
+    Deploy->>Production: Deploy new secret
+```
+
+# Secret management in Kubernetes
+
+## ⚠️ Plug the holes first! ⚠️
+
+- Turn on encryption at rest
+- Configure least-privilege access to Secrets
+
+<br>
+
+Official guide: [Good practices for Kubernetes Secrets](https://kubernetes.io/docs/concepts/security/secrets-good-practices/)
+
+## Deploying secrets to Kubernetes
+
+- External Secrets Operator (ESO): [https://external-secrets.io](https://external-secrets.io)
+- Synchronize secrets from an **external store** to Kubernetes
+- Mount secrets as usual (env var, file)
+
+::: {.notes}
+- Configure sync via CR
+- Works well with GitOps
+:::
+
+## {#external-secrets-graph}
+
+![](assets/external-secrets-graph.embed.svg){fig-align="center"}
+
+::: {.notes}
+- Go into details, will be important later
+- Secret store config (managed by platform team)
+- External secret (managed by dev team)
+:::
+
+## {#secret-changed-now-what}
+
+![](assets/secret-changed-now-what.png){.r-stretch fig-align="center"}
+
+::: {.notes}
+- File changes must be detected by applications
+- Env vars cannot change
+:::
+
+## Triggering workload rollout
+
+- Reloader: [https://github.com/stakater/Reloader](https://github.com/stakater/Reloader)
+- Detects secret changes
+- Triggers rollout for workloads referencing changed secrets
+
+---
+
+```{mermaid}
+sequenceDiagram
+    participant Store as Secret store
+    participant ExternalSecrets as External secrets
+    participant Kubernetes
+    participant Reloader
+
+    ExternalSecrets->>Store: Watch for changes
+    Reloader->>Kubernetes: Watch for changes
+    Store-->>ExternalSecrets: Notice secret change
+    ExternalSecrets->>Kubernetes: Deploy new secret
+    Kubernetes-->>Reloader: Notice secret change
+    Reloader->>Kubernetes: Trigger workload rollout
+```
+
+## What could possibly go wrong?
+
+## Who knows, so monitor everything
+
+- [Metrics](https://external-secrets.io/main/api/metrics/#external-secret-metrics) and [SLI recommendations](https://external-secrets.io/main/api/metrics/#service-level-indicators-and-alerts)
+- [Grafana dashboard](https://external-secrets.io/main/api/metrics/#dashboard) ([needs improvements](https://github.com/external-secrets/external-secrets/issues/2301))
+
+::: {.callout-warning}
+Potential **high cardinality** labels (drop metrics/labels you don't need)
+:::
+
+## Changes take effect with a delay
+
+1. Change some configuration ✏️
+2. Wait until the next secret sync period 🤞
+3. Hope nothing breaks 🙏
+
+**Solution:** create (and modify) test secrets at the same time.
+
+## Cascading effect of an outage ^[May not be a problem anymore]
+
+_Requirement: Use store validation._
+
+1. Provider goes down for a long time (ie. hours) ❌
+2. Store validation reaches a backoff of hours ⏳
+3. Secret synchronization essentially stops 😱
+
+**Solution:** Bump every `(Cluster)SecretStore` after an outage.
+
+<br>
+<br>
+
+## To sum up ESO
+
+- Understand how (and **when**) changes will take effect
+- Monitor and alert for failures
+
+# Demo {background-color="#326ce5"}
+
+::: {style="font-size: 30px;"}
+https://github.com/sagikazarmark/demo-oss-na-2023-kube-secret-rotation
+:::
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
