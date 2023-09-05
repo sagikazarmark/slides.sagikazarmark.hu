@@ -1,0 +1,128 @@
+---
+title: "Bank-Vaults Introduction"
+date: "2023-09-06 19:00"
+event: "CNCF TAG Security weekly"
+description: Introducing Bank-Vaults to CNCF TAG Security.
+categories: [kubernetes, "secret management"]
+image: preview.png
+format:
+  revealjs:
+    theme: default
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "#326ce5"
+      data-background-transition: slide
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Open Source Tech Lead @ Cisco_
+
+CNCF Ambassador
+
+_**Bank-Vaults core maintainer**_
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+# Problem
+
+## Kubernetes secret management is _tricky_
+
+- Secret distribution
+- Secret storage
+- Managing access to secrets
+
+## Secret distribution
+
+- Synchronize secrets to Kubernetes from central store (_External Secrets_)
+- Inject secrets into containers (_Bank-Vaults_)
+- Load secrets directly from store by the application (_store specific SDKs_)
+
+# History
+
+## Banzai Cloud
+
+**Mission:** Help companies with digital transformation
+
+**Solution:** All-in-one platform to run containerized applications
+
+<br>
+
+**Enterprises need solutions to specific problems**
+
+![](assets/banzaicloud-logo.png){.absolute top=-50 right=0 width="300"}
+
+## Bank-Vaults was born
+
+- It was part of the platform initially
+- _"Run your app, we will take care of secret management"_
+- Bank-Vaults became an independent project (2018)
+    - Manage Hashicorp Vault on Kubernetes
+    - Inject secrets directly into pods
+- It quickly became our most popular Open Source project
+
+# Bank-Vaults
+
+- Bank-Vaults CLI
+- Vault Operator
+- Secret injection webhook
+- Vault Go SDK
+- ...more coming
+
+![](assets/bv-logo.png){.absolute top=-50 right=0 width="300"}
+
+## Bank-Vaults CLI
+
+- CLI tool to configure Vault
+- Init, unseal, configure
+- Declarative configuration in YAML
+- Advanced features, like HSM and KMS for unsealing
+
+## Vault Operator
+
+- Operate Vault on Kubernetes
+- Manage unsealing and configuration using Bank-Vaults CLI
+
+## Secret injection webhook
+
+- Mutate pods: inject a binary into containers
+- Replace `vault:path/to/secret` formatted strings in env vars/files
+- Many more features (inject vault token, mutate secrets/configmaps, etc)
+
+# Demo {background-color="#326ce5"}
+
+# Community & adoption
+
+- Used at several companies in production
+- Vibrant community on Slack
+- Several external contributors
+- Roadmap is driven by community feedback
+
+# Future plans
+
+- Secret synchronization between stores
+- Broaden secret store support (where applicable)
+- WASM provider support
+
+# Useful links
+
+- GitHub organization: [https://github.com/bank-vaults](https://github.com/bank-vaults)
+- Documentation: [https://bank-vaults.dev](https://bank-vaults.dev)
+- Roadmap: [https://github.com/orgs/bank-vaults/projects/5](https://github.com/orgs/bank-vaults/projects/5)
+- CNCF sandbox application: [https://github.com/cncf/sandbox/issues/54](https://github.com/cncf/sandbox/issues/54)
+
+# Thank you
+
+_Any questions?_
