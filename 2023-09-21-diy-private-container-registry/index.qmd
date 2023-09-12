@@ -1,0 +1,84 @@
+---
+title: "DIY Private Container Registry"
+date: "2023-09-21 15:00"
+event: "Open Source Summit EU 2023"
+description: |
+    The growing adoption of containerization and container orchestration has amplified the need for secure and controlled distribution of container images.
+    This talk delves into the process of distributing private container images and OCI artifacts,
+    examining the strengths and weaknesses of various solutions in relation to specific use cases,
+    such as software sales and customized builds for clients.
+
+    We compare different approaches, beginning with hosted registries that provide cost-effectiveness, streamlined implementation,
+    and minimal maintenance, although they possess inherent limitations. Subsequently, we investigate a range of open-source solutions,
+    from turnkey options that are user-friendly and low-maintenance but may offer limited integration capabilities,
+    to constructing fully bespoke solutions using low-level building blocks, which grant extensive customization possibilities.
+
+    Join us as we navigate the ever-evolving world of constructing private container distribution using open-source software
+    and assist you in determining the most appropriate approach tailored to your unique needs and requirements.
+categories: ["container images", "container image distribution", "diy"]
+image: preview.png
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: black
+      data-background-image: title-bg.png
+      data-background-transition: slide
+    logo: lf-logo.svg
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Open Source Tech Lead @ Cisco_
+
+CNCF Ambassador
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+::: {.notes}
+Empowering engineering teams to focus on their core business objectives, while seamlessly running their applications on Kubernetes.
+:::
+
+# Let me tell you a story...
+
+# OCI
+
+# Future: OCI Auth spec
+
+- OCI Auth working group
+- Fairly new (first meeting: August 1, 2023)
+
+[https://github.com/opencontainers/wg-auth](https://github.com/opencontainers/wg-auth)
+
+# Final thoughts
+
+::: {.notes}
+:::
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+# {#last background-color="black" background-image="last.png" background-transition="slide"}
