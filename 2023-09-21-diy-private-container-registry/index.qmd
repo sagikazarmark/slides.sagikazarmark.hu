@@ -54,7 +54,150 @@ Empowering engineering teams to focus on their core business objectives, while s
 
 # Let me tell you a story...
 
-# OCI
+## Requirements
+
+- Share closed-source images with target group of
+    - people
+    - machines
+    - services
+- → Flexible authentication and authorization
+- No operational burden (monitoring, backup, etc)
+
+## CNCF Landscape
+
+![](assets/cncf-landscape.png)
+
+_Source: [https://landscape.cncf.io/card-mode?category=container-registry&grouping=category](https://landscape.cncf.io/card-mode?category=container-registry&grouping=category)_
+
+## Available solutions
+
+Cloud-hosted
+
+P2P
+
+All-in-one solutions
+
+Plain old registries
+
+## Cloud-hosted registries
+
+- Pros
+    - Easy to set up
+    - No operational burden
+- Cons
+    - Fix, but flexible authnz
+
+::: {.notes}
+Surprisingly, companies were not willing to register AWS/GCP accounts.
+:::
+
+## New requirements
+
+- More flexible authentication (ie. custom auth provider)
+- Flexible authorization
+
+## Back to research
+
+~~Cloud-hosted~~
+
+::: {.fragment .strike}
+P2P
+:::
+
+::: {.fragment .highlight-blue}
+All-in-one solutions
+:::
+
+Plain old registries
+
+## All-in-one solutions
+
+::: {.fragment .strike fragment-index=1}
+JFrog
+:::
+
+[Portus]{.fragment .strike fragment-index=2}
+[_(unmaintained)_]{.fragment .fade-in fragment-index=2}
+
+::: {.fragment .highlight-blue fragment-index=3}
+Harbor
+:::
+
+## Harbor
+
+- Supports container images and Helm charts
+- Structures artifacts into projects
+- Robot accounts
+- Simple authorization
+- Uses [Distribution](https://github.com/distribution/distribution) as a registry
+
+![](assets/harbor-logo.png){.absolute top="-50" right=0 width="200"}
+
+::: {.notes}
+Tons of features
+
+How we used Harbor
+:::
+
+## Harbor quirks and cons
+
+- Group based access for users, but not robot accounts
+- API integration only works with the admin credentials
+- Massive piece of software for a specific use case
+
+## New requirements
+
+- Self-serve portal
+- Closer integration with sales and licensing systems
+
+::: {.fragment}
+**Maybe it's time to build our own solution.**
+:::
+
+## Back to research
+
+~~Cloud-hosted~~
+
+~~P2P~~
+
+~~All-in-one solutions~~
+
+Plain old registries
+
+# How do container registries work?
+
+## OCI
+
+![](assets/oci.embed.svg){fig-align="center"}
+
+## No auth in OCI distribution spec
+
+![](assets/oci-no-auth.embed.svg){fig-align="center"}
+
+## Docker registry auth "specification"
+
+TODO
+
+# Final solution
+
+## Plain old registries
+
+- Distribution
+- Zot
+
+## Distribution
+
+TODO
+
+## Zot
+
+TODO
+
+## Registry authentication
+
+TODO
+
+# Demo
 
 # Future: OCI Auth spec
 
