@@ -85,7 +85,8 @@ Plain old registries
     - Easy to set up
     - No operational burden
 - Cons
-    - Fix, but flexible authnz
+    - Requires cloud provider account
+    - Manual IAM setup
 
 ::: {.notes}
 Surprisingly, companies were not willing to register AWS/GCP accounts.
@@ -125,9 +126,8 @@ Harbor
 
 ## Harbor
 
-- Supports container images and Helm charts
 - Structures artifacts into projects
-- Robot accounts
+- Robot accounts for service-to-service auth
 - Simple authorization
 - Uses [Distribution](https://github.com/distribution/distribution) as a registry
 
@@ -141,9 +141,14 @@ How we used Harbor
 
 ## Harbor quirks and cons
 
-- Group based access for users, but not robot accounts
+- Group based access for users, but not for robot accounts
 - API integration only works with the admin credentials
-- Massive piece of software for a specific use case
+- Complex software for a specific use case
+- Operation is not trivial
+
+::: {.notes}
+But: can use object store due to Distribution
+:::
 
 ## New requirements
 
@@ -162,7 +167,7 @@ How we used Harbor
 
 ~~All-in-one solutions~~
 
-Plain old registries
+**Plain old registries**
 
 # How do container registries work?
 
@@ -178,7 +183,7 @@ Plain old registries
 
 TODO
 
-# Final solution
+# Let's put it all together
 
 ## Plain old registries
 
@@ -187,17 +192,27 @@ TODO
 
 ## Distribution
 
-TODO
+- Reference Docker registry implementation
+
+![](assets/distribution-logo.png){.absolute top="-50" right=0 width="150"}
 
 ## Zot
 
 TODO
 
+![](assets/zot-logo.svg){.absolute top="-50" right=0 width="200"}
+
 ## Registry authentication
 
 TODO
 
-# Demo
+# Demo {background-gradient="linear-gradient(45deg, #1b2975, #479fdf)"}
+
+# Registry auth caveats
+
+- Not a formal spec
+- There are several [open questions](https://github.com/distribution/distribution/discussions/3744)
+- Competing, but incompatible specs (eg. [Chartmuseum Auth](https://github.com/chartmuseum/auth-server-example))
 
 # Future: OCI Auth spec
 
