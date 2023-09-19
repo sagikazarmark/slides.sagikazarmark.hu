@@ -48,10 +48,6 @@ CNCF Ambassador
 
 ![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
 
-::: {.notes}
-Empowering engineering teams to focus on their core business objectives, while seamlessly running their applications on Kubernetes.
-:::
-
 # Let me tell you a story...
 
 ## Requirements
@@ -129,6 +125,7 @@ Harbor
 - Structures artifacts into projects
 - Robot accounts for service-to-service auth
 - Simple authorization
+- Image replication
 - Uses [Distribution](https://github.com/distribution/distribution) as a registry
 
 ![](assets/harbor-logo.png){.absolute top="-50" right=0 width="200"}
@@ -179,9 +176,28 @@ But: can use object store due to Distribution
 
 ![](assets/oci-no-auth.embed.svg){fig-align="center"}
 
-## Docker registry auth "specification"
+::: {.notes}
+- HTTP interface -> Basic auth
+- Client support
+:::
 
-TODO
+## Docker token auth "specification"
+
+- Token based authentication
+- OAuth2 protocol
+
+## {#docker-token-auth-flow}
+
+![](assets/docker-token-auth.embed.svg){fig-align="center"}
+
+::: {.notes}
+1. Client attempts to begin an operation with the registry
+2. If the registry requires authorization it will return a `401 Unauthorized` HTTP response with information on how to authenticate
+3. Client makes a request to the authorization service for a token
+4. Authorization service returns a token representing the client's authorized access
+5. Client retries the original request with the token embedded in the request's Authorization header
+6. Registry authorizes the client by validating the token and the claim set embedded within it and begins the operation as usual
+:::
 
 # Let's put it all together
 
@@ -193,26 +209,54 @@ TODO
 ## Distribution
 
 - Reference Docker registry implementation
+- Major providers rely on it
+- Implements the token auth spec
+- Maintenance policy is non-trivial
+
+[https://github.com/distribution/distribution](https://github.com/distribution/distribution)
 
 ![](assets/distribution-logo.png){.absolute top="-50" right=0 width="150"}
 
+::: {.notes}
+- Supports various object stores
+- Providers: Docker Hub, GitHub CR, GitLab CR, DigitalOcean CR, Harbor
+- Last minor version is from 2022
+- Doesn't support workload identities (see [this](https://github.com/distribution/distribution/issues/3756) issue)
+:::
+
 ## Zot
 
-TODO
+> A production-ready vendor-neutral OCI-native container image registry (purely based on OCI Distribution Specification)
 
-![](assets/zot-logo.svg){.absolute top="-50" right=0 width="200"}
+- CNCF Sandbox project
+- Token auth is currently [broken](https://github.com/project-zot/zot/issues/1125)
+
+[https://zotregistry.io](https://zotregistry.io)
+
+![](assets/zot-logo.svg){.absolute top="-100" right=0 width="200"}
+
+::: {.notes}
+- Donated by Cisco
+:::
 
 ## Registry authentication
 
-TODO
+- Registry auth [library](https://github.com/sagikazarmark/registry-auth) and [service](https://github.com/sagikazarmark/registry-auth-service)
+- Build your own with the _library_
+- Use an existing integration with the _service_
+- ⚠️ **Work in progress!**
 
-# Demo {background-gradient="linear-gradient(45deg, #1b2975, #479fdf)"}
+[https://github.com/sagikazarmark/registry-auth](https://github.com/sagikazarmark/registry-auth)
+
+[https://github.com/sagikazarmark/registry-auth-service](https://github.com/sagikazarmark/registry-auth-service)
+
+# Demo {background-color="#1b2975"}
 
 # Registry auth caveats
 
-- Not a formal spec
+- Not a formal specification
 - There are several [open questions](https://github.com/distribution/distribution/discussions/3744)
-- Competing, but incompatible specs (eg. [Chartmuseum Auth](https://github.com/chartmuseum/auth-server-example))
+- Competing, but incompatible specs (eg. [ChartMuseum Auth](https://github.com/chartmuseum/auth-server-example))
 
 # Future: OCI Auth spec
 
