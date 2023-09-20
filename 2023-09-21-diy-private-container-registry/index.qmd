@@ -53,11 +53,10 @@ CNCF Ambassador
 ## Requirements
 
 - Share closed-source images with target group of
-    - people
-    - machines
-    - services
-- → Flexible authentication and authorization
-- No operational burden (monitoring, backup, etc)
+    - customers
+    - customer environments
+- → Customer authentication and authorization
+- Minimize operational burden (monitoring, backup, etc)
 
 ## CNCF Landscape
 
@@ -90,8 +89,8 @@ Surprisingly, companies were not willing to register AWS/GCP accounts.
 
 ## New requirements
 
-- More flexible authentication (ie. custom auth provider)
-- Flexible authorization
+- No cloud provider registration required
+- Flexible authorization (eg. entitlement-based)
 
 ## Back to research
 
@@ -181,9 +180,11 @@ But: can use object store due to Distribution
 - Client support
 :::
 
-## Docker token auth "specification"
+## Docker registry auth "specification"
 
-- Token based authentication
+aka. `docker login`
+
+- Token based authorization
 - OAuth2 protocol
 
 ## {#docker-token-auth-flow}
@@ -210,8 +211,6 @@ But: can use object store due to Distribution
 
 - Reference Docker registry implementation
 - Major providers rely on it
-- Implements the token auth spec
-- Maintenance policy is non-trivial
 
 [https://github.com/distribution/distribution](https://github.com/distribution/distribution)
 
@@ -229,7 +228,7 @@ But: can use object store due to Distribution
 > A production-ready vendor-neutral OCI-native container image registry (purely based on OCI Distribution Specification)
 
 - CNCF Sandbox project
-- Token auth is currently [broken](https://github.com/project-zot/zot/issues/1125)
+- Registry auth is currently [broken](https://github.com/project-zot/zot/issues/1125)
 
 [https://zotregistry.io](https://zotregistry.io)
 
@@ -237,26 +236,26 @@ But: can use object store due to Distribution
 
 ::: {.notes}
 - Donated by Cisco
+- Supports object stores
 :::
 
-## Registry authentication
+## Portward
 
-- Registry auth [library](https://github.com/sagikazarmark/registry-auth) and [service](https://github.com/sagikazarmark/registry-auth-service)
+- Registry auth [library](https://github.com/portward/registry-auth) and [service](https://github.com/portward/portward)
 - Build your own with the _library_
 - Use an existing integration with the _service_
 - ⚠️ **Work in progress!**
 
-[https://github.com/sagikazarmark/registry-auth](https://github.com/sagikazarmark/registry-auth)
+[https://github.com/portward/registry-auth](https://github.com/portward/registry-auth)
 
-[https://github.com/sagikazarmark/registry-auth-service](https://github.com/sagikazarmark/registry-auth-service)
-
-# Demo {background-color="#1b2975"}
+[https://github.com/portward/portward](https://github.com/portward/portward)
 
 # Registry auth caveats
 
 - Not a formal specification
-- There are several [open questions](https://github.com/distribution/distribution/discussions/3744)
+- There are several [gaps](https://github.com/distribution/distribution/discussions/3744) in it
 - Competing, but incompatible specs (eg. [ChartMuseum Auth](https://github.com/chartmuseum/auth-server-example))
+- Partial implementations
 
 # Future: OCI Auth spec
 
@@ -268,6 +267,10 @@ But: can use object store due to Distribution
 # Final thoughts
 
 ::: {.notes}
+- Do you need your own registry?
+- Probably not
+- Maybe
+- It's not a big deal
 :::
 
 # Thank you
