@@ -250,6 +250,8 @@ aka. `docker login`
 
 [https://github.com/portward/portward](https://github.com/portward/portward)
 
+![](assets/portward-logo.png){.absolute top="-50" right=0 width="200"}
+
 # Registry auth caveats
 
 - Not a formal specification
