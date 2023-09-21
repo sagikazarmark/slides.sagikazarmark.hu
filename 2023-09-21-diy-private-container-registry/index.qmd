@@ -50,13 +50,23 @@ CNCF Ambassador
 
 # Let me tell you a story...
 
+::: {.notes}
+- Distribute images to customers
+- Design partners
+:::
+
 ## Requirements
 
-- Share closed-source images with target group of
-    - customers
-    - customer environments
-- → Customer authentication and authorization
+- Share images with design partners
+- Target environments
+    - developer machine
+    - Kubernetes
+- → Flexible authentication and authorization
 - Minimize operational burden (monitoring, backup, etc)
+
+::: {.notes}
+What do people do when they are in need of a Cloud Native solution?
+:::
 
 ## CNCF Landscape
 
@@ -84,13 +94,18 @@ Plain old registries
     - Manual IAM setup
 
 ::: {.notes}
-Surprisingly, companies were not willing to register AWS/GCP accounts.
+Surprisingly, companies were not eager to register cloud provider accounts.
 :::
 
 ## New requirements
 
 - No cloud provider registration required
 - Flexible authorization (eg. entitlement-based)
+
+::: {.notes}
+More design partners and customers
+More projects with more container images
+:::
 
 ## Back to research
 
@@ -112,10 +127,13 @@ Plain old registries
 JFrog
 :::
 
-[Portus]{.fragment .strike fragment-index=2}
-[_(unmaintained)_]{.fragment .fade-in fragment-index=2}
+[Quay]{.fragment .strike fragment-index=2}
+[_(wasn't open source at the time)_]{.fragment .fade-in fragment-index=2}
 
-::: {.fragment .highlight-blue fragment-index=3}
+[Portus]{.fragment .strike fragment-index=3}
+[_(unmaintained)_]{.fragment .fade-in fragment-index=3}
+
+::: {.fragment .highlight-blue fragment-index=4}
 Harbor
 :::
 
@@ -138,6 +156,7 @@ How we used Harbor
 ## Harbor quirks and cons
 
 - Group based access for users, but not for robot accounts
+- Cross-project robot account creation requires admin access
 - API integration only works with the admin credentials
 - Complex software for a specific use case
 - Operation is not trivial
@@ -155,6 +174,10 @@ But: can use object store due to Distribution
 **Maybe it's time to build our own solution.**
 :::
 
+::: {.notes}
+PLG is everywhere today
+:::
+
 ## Back to research
 
 ~~Cloud-hosted~~
@@ -167,11 +190,11 @@ But: can use object store due to Distribution
 
 # How do container registries work?
 
-## OCI
+## OCI {transition="slide-in fade-out"}
 
 ![](assets/oci.embed.svg){fig-align="center"}
 
-## No auth in OCI distribution spec
+## OCI {#oci-no-auth transition="fade-in slide-out"}
 
 ![](assets/oci-no-auth.embed.svg){fig-align="center"}
 
@@ -186,6 +209,11 @@ aka. `docker login`
 
 - Token based authorization
 - OAuth2 protocol
+
+::: {.notes}
+- Not a formal spec
+- Documented under the Distribution project
+:::
 
 ## {#docker-token-auth-flow}
 
@@ -207,6 +235,10 @@ aka. `docker login`
 - Distribution
 - Zot
 
+::: {.notes}
+- CNCF Sandbox projects
+:::
+
 ## Distribution
 
 - Reference Docker registry implementation
@@ -227,7 +259,6 @@ aka. `docker login`
 
 > A production-ready vendor-neutral OCI-native container image registry (purely based on OCI Distribution Specification)
 
-- CNCF Sandbox project
 - Registry auth is currently [broken](https://github.com/project-zot/zot/issues/1125)
 
 [https://zotregistry.io](https://zotregistry.io)
@@ -265,15 +296,6 @@ aka. `docker login`
 - Fairly new (first meeting: August 1, 2023)
 
 [https://github.com/opencontainers/wg-auth](https://github.com/opencontainers/wg-auth)
-
-# Final thoughts
-
-::: {.notes}
-- Do you need your own registry?
-- Probably not
-- Maybe
-- It's not a big deal
-:::
 
 # Thank you
 
