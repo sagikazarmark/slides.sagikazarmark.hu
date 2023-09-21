@@ -1,0 +1,305 @@
+---
+title: "DIY Private Container Registry"
+date: "2023-09-21 15:00"
+event: "Open Source Summit EU 2023"
+description: |
+    The growing adoption of containerization and container orchestration has amplified the need for secure and controlled distribution of container images.
+    This talk delves into the process of distributing private container images and OCI artifacts,
+    examining the strengths and weaknesses of various solutions in relation to specific use cases,
+    such as software sales and customized builds for clients.
+
+    We compare different approaches, beginning with hosted registries that provide cost-effectiveness, streamlined implementation,
+    and minimal maintenance, although they possess inherent limitations. Subsequently, we investigate a range of open-source solutions,
+    from turnkey options that are user-friendly and low-maintenance but may offer limited integration capabilities,
+    to constructing fully bespoke solutions using low-level building blocks, which grant extensive customization possibilities.
+
+    Join us as we navigate the ever-evolving world of constructing private container distribution using open-source software
+    and assist you in determining the most appropriate approach tailored to your unique needs and requirements.
+categories: ["container images", "container image distribution", "diy"]
+image: preview.png
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: black
+      data-background-image: title-bg.png
+      data-background-transition: slide
+    logo: lf-logo.svg
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Open Source Tech Lead @ Cisco_
+
+CNCF Ambassador
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+# Let me tell you a story...
+
+::: {.notes}
+- Distribute images to customers
+- Design partners
+:::
+
+## Requirements
+
+- Share container images with design partners
+- Target environments
+    - developer machine
+    - CI
+    - container orchestrator
+- → Flexible authentication and authorization
+- Minimize operational burden (monitoring, backup, etc)
+
+::: {.notes}
+What do people do when they are in need of a Cloud Native solution?
+:::
+
+## CNCF Landscape
+
+![](assets/cncf-landscape.png)
+
+_Source: [https://landscape.cncf.io/card-mode?category=container-registry&grouping=category](https://landscape.cncf.io/card-mode?category=container-registry&grouping=category)_
+
+## Available solutions
+
+Cloud-hosted
+
+P2P
+
+All-in-one solutions
+
+Plain old registries
+
+## Cloud-hosted registries
+
+- Pros
+    - Easy to set up
+    - No operational burden
+- Cons
+    - Requires cloud provider account
+    - Manual IAM setup
+
+::: {.notes}
+Surprisingly, companies were not eager to register cloud provider accounts.
+:::
+
+## New requirements
+
+- No cloud provider registration required
+- Flexible authorization (eg. entitlement-based)
+
+::: {.notes}
+More design partners and customers
+More projects with more container images
+:::
+
+## Back to research
+
+~~Cloud-hosted~~
+
+::: {.fragment .strike}
+P2P
+:::
+
+::: {.fragment .highlight-blue}
+All-in-one solutions
+:::
+
+Plain old registries
+
+## All-in-one solutions
+
+::: {.fragment .strike fragment-index=1}
+JFrog
+:::
+
+[Quay]{.fragment .strike fragment-index=2}
+[_(wasn't open source at the time)_]{.fragment .fade-in fragment-index=2}
+
+[Portus]{.fragment .strike fragment-index=3}
+[_(unmaintained)_]{.fragment .fade-in fragment-index=3}
+
+::: {.fragment .highlight-blue fragment-index=4}
+Harbor
+:::
+
+## Harbor
+
+- Structures artifacts into projects
+- Robot accounts for service-to-service auth
+- Simple authorization
+- Image replication
+- Uses [Distribution](https://github.com/distribution/distribution) as a registry
+
+![](assets/harbor-logo.png){.absolute top="-50" right=0 width="200"}
+
+::: {.notes}
+Tons of features
+
+How we used Harbor
+:::
+
+## Harbor quirks and cons
+
+- Group based access for users, but not for robot accounts
+- Cross-project robot account creation requires admin access
+- API integration only works with the admin credentials
+- Complex software for a specific use case
+- Operation is not trivial
+
+::: {.notes}
+But: can use object store due to Distribution
+:::
+
+## New requirements
+
+- Self-serve portal
+- Closer integration with sales and licensing systems
+
+::: {.fragment}
+**Maybe it's time to build our own solution.**
+:::
+
+::: {.notes}
+PLG is everywhere today
+:::
+
+# How do container registries work?
+
+## OCI {transition="slide-in fade-out"}
+
+![](assets/oci.embed.svg){fig-align="center"}
+
+## OCI {#oci-no-auth transition="fade-in slide-out"}
+
+![](assets/oci-no-auth.embed.svg){fig-align="center"}
+
+::: {.notes}
+- HTTP interface -> Basic auth (if the client supports it)
+- Authz?
+:::
+
+## Docker registry auth "specification"
+
+aka. `docker login`
+
+- Token based authorization
+- OAuth2 protocol
+
+::: {.notes}
+- Not a formal spec
+- Documented under the Distribution project
+:::
+
+## {#docker-token-auth-flow}
+
+![](assets/docker-token-auth.embed.svg){fig-align="center"}
+
+::: {.notes}
+1. Client attempts to begin an operation with the registry
+2. If the registry requires authorization it will return a `401 Unauthorized` HTTP response with information on how to authenticate
+3. Client makes a request to the authorization service for a token
+4. Authorization service returns a token representing the client's authorized access
+5. Client retries the original request with the token embedded in the request's Authorization header
+6. Registry authorizes the client by validating the token and the claim set embedded within it and begins the operation as usual
+:::
+
+# Let's put it all together
+
+## Plain old registries
+
+- Distribution
+- Zot
+
+::: {.notes}
+- CNCF Sandbox projects
+:::
+
+## Distribution
+
+- Reference Docker registry implementation
+- Major providers rely on it
+
+[https://github.com/distribution/distribution](https://github.com/distribution/distribution)
+
+![](assets/distribution-logo.png){.absolute top="-50" right=0 width="150"}
+
+::: {.notes}
+- Supports various object stores
+- Providers: Docker Hub, GitHub CR, GitLab CR, DigitalOcean CR, Harbor
+- Team is focused on v3
+- Last minor version is from 2022
+- Doesn't support workload identities (see [this](https://github.com/distribution/distribution/issues/3756) issue)
+:::
+
+## Zot
+
+> A production-ready vendor-neutral OCI-native container image registry (purely based on OCI Distribution Specification)
+
+- Registry auth is currently [broken](https://github.com/project-zot/zot/issues/1125)
+
+[https://zotregistry.io](https://zotregistry.io)
+
+![](assets/zot-logo.svg){.absolute top="-100" right=0 width="200"}
+
+::: {.notes}
+- Donated by Cisco
+- Supports object stores
+:::
+
+## Portward
+
+- Registry auth [library](https://github.com/portward/registry-auth) and [service](https://github.com/portward/portward)
+- Build your own with the _library_
+- Use an existing integration with the _service_
+- ⚠️ **Work in progress!**
+
+[https://github.com/portward/registry-auth](https://github.com/portward/registry-auth)
+
+[https://github.com/portward/portward](https://github.com/portward/portward)
+
+![](assets/portward-logo.png){.absolute top="-50" right=0 width="200"}
+
+# Registry auth caveats
+
+- Not a formal specification
+- There are several [gaps](https://github.com/distribution/distribution/discussions/3744) in it
+- Competing, but incompatible specs (eg. [ChartMuseum Auth](https://github.com/chartmuseum/auth-server-example))
+- Partial implementations
+
+# Future: OCI Auth spec
+
+- OCI Auth working group
+- Fairly new (first meeting: August 1, 2023)
+
+[https://github.com/opencontainers/wg-auth](https://github.com/opencontainers/wg-auth)
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+# {#last background-color="black" background-image="last.png" background-transition="slide"}
