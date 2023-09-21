@@ -57,10 +57,11 @@ CNCF Ambassador
 
 ## Requirements
 
-- Share images with design partners
+- Share container images with design partners
 - Target environments
     - developer machine
-    - Kubernetes
+    - CI
+    - container orchestrator
 - → Flexible authentication and authorization
 - Minimize operational burden (monitoring, backup, etc)
 
@@ -178,16 +179,6 @@ But: can use object store due to Distribution
 PLG is everywhere today
 :::
 
-## Back to research
-
-~~Cloud-hosted~~
-
-~~P2P~~
-
-~~All-in-one solutions~~
-
-**Plain old registries**
-
 # How do container registries work?
 
 ## OCI {transition="slide-in fade-out"}
@@ -199,8 +190,8 @@ PLG is everywhere today
 ![](assets/oci-no-auth.embed.svg){fig-align="center"}
 
 ::: {.notes}
-- HTTP interface -> Basic auth
-- Client support
+- HTTP interface -> Basic auth (if the client supports it)
+- Authz?
 :::
 
 ## Docker registry auth "specification"
@@ -251,6 +242,7 @@ aka. `docker login`
 ::: {.notes}
 - Supports various object stores
 - Providers: Docker Hub, GitHub CR, GitLab CR, DigitalOcean CR, Harbor
+- Team is focused on v3
 - Last minor version is from 2022
 - Doesn't support workload identities (see [this](https://github.com/distribution/distribution/issues/3756) issue)
 :::
