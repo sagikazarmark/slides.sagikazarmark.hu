@@ -1,0 +1,191 @@
+---
+title: "A Brief History of Logging in Go"
+date: "2023-10-27 18:00"
+event: "Go Budapest meetup"
+description: |
+    Go 1.21 featured a new, structured logging library in the standard library.
+    This feature has been long awaited by the Go community, and it is a significant milestone in the history of logging in Go.
+
+    In this talk, we will take a look at the history of logging in Go, what challenges the new package solves,
+    and how it compares to other logging libraries.
+categories: ["go", "logging"]
+image: preview.png
+format:
+  revealjs:
+    navigation-mode: vertical
+highlight-style: github
+---
+
+# Standard library
+
+_(Prior to 1.21)_
+
+## `log` package
+
+```{.go code-line-numbers="6"}
+package main
+
+import "log"
+
+func main() {
+    log.Print("Hello world!")
+}
+```
+
+<br>
+
+```shell
+go run main.go
+
+2009/11/10 23:00:00 Hello world!
+```
+
+## `log` package
+
+- No structured logging
+- No levels
+- No way to change the output format or destination ^[`io.Writer` does NOT count]
+- No context propagation
+
+## `log.Fatal`
+
+:::: {.columns}
+
+::: {.column width="60%"}
+```{.go code-line-numbers="6,8"}
+package main
+
+import "log"
+
+func main() {
+    log.Fatal("Hello world!")
+
+    log.Print("Bye")
+}
+```
+
+<br>
+
+```shell
+go run main.go
+
+2009/11/10 23:00:00 Hello world!
+```
+:::
+
+::: {.column .fragment .fade-in width="40%"}
+![](assets/margit.jpg)
+:::
+
+::::
+
+## Logger interface???
+
+- [Proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU) from 2017
+- Eventually became [github.com/go-kit/log](https://github.com/go-kit/log)
+
+# Userland
+
+## Popular logging libraries
+
+- Logrus
+- Zap
+- Zerolog
+- Go-kit
+- Glog
+
+## [Awesome Go](https://github.com/avelino/awesome-go) ^[as of today]
+
+- 62 logging related libraries
+- 6 of them called `go-log(ger)`
+- 7 of them called `log(ger)`
+
+## Challenges
+
+- Interoperability between libraries
+- Dependency ~~hell~~ purgatory
+- Dozens of interfaces (gRPC, mysql, etc)
+
+# `log/slog` package
+
+- First proposed in 2022 October
+- Released in Go 1.21
+
+## Levels
+
+```{.go code-line-numbers="3,6"}
+package main
+
+import "log/slog"
+
+func main() {
+    slog.Info("Hello world!")
+}
+```
+
+<br>
+
+```shell
+2009/11/10 23:00:00 INFO Hello world!
+```
+
+## Structured logging
+
+```{.go code-line-numbers="9,11"}
+package main
+
+import (
+    "log/slog"
+    "os"
+)
+
+func main() {
+    slog.Info("Hello world!", "user", os.Getenv("USER"))
+    // OR
+    slog.Info("Hello world!", slog.String("user", os.Getenv("USER")))
+}
+```
+
+<br>
+
+```shell
+2009/11/10 23:00:00 INFO Hello world! user="user"
+```
+
+## Custom handlers
+
+```{.go code-line-numbers="9,11"}
+package main
+
+import (
+    "log/slog"
+    "os"
+)
+
+func main() {
+    logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+
+    logger.Info("Hello world!", slog.String("user", os.Getenv("USER")))
+}
+```
+
+<br>
+
+```shell
+time=2009-11-10T23:00:00.000Z level=INFO msg="Hello world!" user="user"
+```
+
+## Other features
+
+- Context propagation
+- Attach common attributes to logger
+- No more `log.Fatal` BS!
+
+## Further reading
+
+- [https://go.dev/blog/slog](https://go.dev/blog/slog)
+- [https://pkg.go.dev/log/slog](https://pkg.go.dev/log/slog)
+
+# Final thoughts
+
+# Questions?
