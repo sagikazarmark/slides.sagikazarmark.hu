@@ -111,6 +111,26 @@
         "type": "github"
       }
     },
+    "mynur": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1698677639,
+        "narHash": "sha256-xMi/DXi+ZCXBBums1MaOlWzHn0u2AqeOSePqDzQlwZc=",
+        "owner": "sagikazarmark",
+        "repo": "nur-packages",
+        "rev": "3b4066bc6e955f1ee089cb4c318cf91baa2a1d07",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sagikazarmark",
+        "repo": "nur-packages",
+        "type": "github"
+      }
+    },
     "nix": {
       "inputs": {
         "lowdown-src": "lowdown-src",
@@ -249,6 +269,7 @@
       "inputs": {
         "devenv": "devenv",
         "flake-parts": "flake-parts",
+        "mynur": "mynur",
         "nixpkgs": "nixpkgs_2"
       }
     },
