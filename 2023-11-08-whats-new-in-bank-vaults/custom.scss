@@ -1,0 +1,16 @@
+/*-- scss:defaults --*/
+
+
+/*-- scss:rules --*/
+.reveal h1.title {
+  font-size: 1.8em;
+  margin-top: 2.8em;
+}
+
+.reveal .slide-logo {
+  max-height: 8rem !important;
+}
+
+.reveal.has-dark-background .slide-logo {
+  display: none !important;
+}

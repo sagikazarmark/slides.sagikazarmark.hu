@@ -1,0 +1,136 @@
+---
+title: "What's new in Bank-Vaults?"
+date: "2023-11-08 11:15"
+event: "KubeCon NA 2023"
+categories: [kubernetes, "secret management"]
+image: preview.png
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    navigation-mode: vertical
+    logo: bv-logo.png
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Head of OSS @ OpenMeter_
+
+CNCF Ambassador
+
+_**Bank-Vaults core maintainer**_
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+# Agenda
+
+- What is Bank-Vaults?
+- Challenges
+- New features
+- Other changes
+
+# What is Bank-Vaults?
+
+An Open Source secret management solution for Kubernetes and Hashicorp Vault.
+
+::: {.incremental}
+- Bank-Vaults CLI
+- Vault Operator
+- Secret injection webhook
+- Vault Go SDK
+- ...and more
+:::
+
+# Challenges
+
+## Use case #1
+
+![](assets/usecase1.png){fig-align="center"}
+
+::: {.notes}
+- How do you synchronize?
+- What if you have a different secret store?
+:::
+
+## Use case #2
+
+![](assets/usecase2.png){fig-align="center"}
+
+# New features
+
+## Secret sync
+
+![](assets/feature1.png){fig-align="center"}
+
+## Secret sync
+
+:::: {.columns}
+
+::: {.column width="70%"}
+- GitHub repo: [https://github.com/bank-vaults/secret-sync](https://github.com/bank-vaults/secret-sync)
+- Announcement: [https://github.com/orgs/bank-vaults/discussions/2260](https://github.com/orgs/bank-vaults/discussions/2260)
+:::
+
+::: {.column width="30%"}
+{{< qrcode width=400 height=400 https://github.com/bank-vaults/secret-sync qr1 >}}
+:::
+
+::::
+
+## Secret reloader
+
+![](assets/feature2.png){fig-align="center"}
+
+## Secret reloader
+
+:::: {.columns}
+
+::: {.column width="70%"}
+- GitHub repo: [https://github.com/bank-vaults/vault-secrets-reloader](https://github.com/bank-vaults/vault-secrets-reloader)
+- Announcement: [https://github.com/bank-vaults/vault-secrets-reloader/discussions/48](https://github.com/bank-vaults/vault-secrets-reloader/discussions/48)
+:::
+
+::: {.column width="30%"}
+{{< qrcode width=400 height=400 https://github.com/bank-vaults/vault-secrets-reloader qr2 >}}
+:::
+
+::::
+
+# Project changes
+
+## New organization
+
+- GitHub: [https://github.com/bank-vaults/](https://github.com/bank-vaults/)
+
+## CNCF Sandbox
+
+- Application: [https://github.com/cncf/sandbox/issues/54](https://github.com/cncf/sandbox/issues/54)
+
+## BUSL license
+
+- Most components are unaffected
+- Vault-Operator and Helm chart _MAY_ need to be relicensed
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)

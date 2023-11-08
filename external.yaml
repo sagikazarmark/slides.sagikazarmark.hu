@@ -1,0 +1,15 @@
+- title: "Future-Proof Your Platform’s CI/CD Without Developers Noticing a Thing (Except Unicorns and Rainbows)"
+  date: "2023-11-05 14:00"
+  event: "Cloud Native Rejekts NA 2023"
+  eventUrl: https://cfp.cloud-native.rejekts.io/cloud-native-rejekts-na-chicago-2023/talk/VVRNWR/
+  description: |
+    You've just perfected CI and/or CD for your organization, again.
+    It was a huge, frustrating effort, and learning another proprietary DSL or YAML didn't deliver the promised tenfold increase in release frequency.
+    It wasn't the first re-platform and it won’t be the last. Now that things have calmed down, there must be a way to prepare, to future-proof your CI/CD and protect developers,
+    the business, and your sanity. In this talk we’ll demonstrate how to use abstraction, containerization, DAGs,
+    and general-purpose programming languages that your team already knows to create portable CI/CD workflows that can run anywhere without rewriting everything.
+    We’ll also highlight how this approach has additional benefits like composability, reuse, testing of CI/CD code itself,
+    and fast feedback loops for developers (since you can run these pipelines locally).
+    This talk is aimed at anyone who is expecting to have to re-platform CI/CD again in the future (that’s you) and just wants the pain to stop.
+  categories: [cicd, dagger]
+  path: "https://docs.google.com/presentation/d/1Pmr7-k40GhvKNpl2MU5bZI-R06WNA01NwMVCGpHlcPA/edit?usp=sharing"

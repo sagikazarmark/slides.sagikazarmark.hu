@@ -1,7 +1,9 @@
 ---
 title: "Mark's slides"
 listing:
-  contents: .
+  contents:
+    - .
+    - external.yaml
   sort: "date desc"
   type: default
   fields: [date, title, subtitle, categories, event]

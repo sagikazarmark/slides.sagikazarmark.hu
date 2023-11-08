@@ -23,6 +23,7 @@
             packages = with pkgs; [
               quarto
               netlify-cli
+              d2
 
               # python310Packages.jupyter
               # python310Packages.matplotlib

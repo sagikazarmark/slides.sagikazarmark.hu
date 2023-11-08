@@ -1,0 +1,41 @@
+direction: down
+
+EnterpriseVault: {
+  label: Enterprise Vault
+  shape: image
+  icon: https://www.svgrepo.com/download/448679/vault.svg
+}
+
+ClusterA: {
+  label: Cluster A
+  icon: https://icons.terrastruct.com/azure%2F_Companies%2FKubernetes.svg
+
+  LocalA: Local Vault
+  WorkloadA: Workload
+
+  LocalA -> WorkloadA
+}
+
+ClusterB: {
+  label: Cluster B
+  icon: https://icons.terrastruct.com/azure%2F_Companies%2FKubernetes.svg
+
+  LocalB: Local Vault
+  WorkloadB: Workload
+
+  LocalB -> WorkloadB
+}
+
+ClusterC: {
+  label: Cluster C
+  icon: https://icons.terrastruct.com/azure%2F_Companies%2FKubernetes.svg
+
+  LocalC: Local Vault
+  WorkloadC: Workload
+
+  LocalC -> WorkloadC
+}
+
+EnterpriseVault -> ClusterA.LocalA: Sync
+EnterpriseVault -> ClusterB.LocalB: Sync
+EnterpriseVault -> ClusterC.LocalC: Sync

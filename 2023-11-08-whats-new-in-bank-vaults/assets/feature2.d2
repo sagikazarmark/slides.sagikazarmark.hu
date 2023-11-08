@@ -1,0 +1,76 @@
+shape: sequence_diagram
+
+AWSIAM: {
+  label: AWS IAM
+  shape: image
+  icon: https://icons.terrastruct.com/aws%2FSecurity%2C%20Identity%2C%20&%20Compliance%2FAWS-Identify-and-Access-Management_IAM.svg
+
+  style: {
+    font-size: 28
+  }
+}
+
+Vault: {
+  label: Vault
+  shape: image
+  icon: https://www.svgrepo.com/download/448679/vault.svg
+
+  style: {
+    font-size: 28
+  }
+}
+
+BankVaults: {
+  label: Bank-Vaults
+  shape: image
+  icon: https://raw.githubusercontent.com/bank-vaults/bank-vaults.dev/main/assets/icons/logo.svg
+
+  style: {
+    font-size: 28
+  }
+}
+
+Workload: {
+  style: {
+    font-size: 28
+  }
+}
+
+Vault -> AWSIAM: 1. Issue a new pair of credentials {
+  style: {
+    font-size: 28
+  }
+}
+BankVaults -> Vault: 2. Grab credentials {
+  style: {
+    font-size: 28
+  }
+}
+BankVaults -> Workload: 3. Inject credentials {
+  style: {
+    font-size: 28
+  }
+}
+Vault -> AWSIAM: 4. Renew/reissue credentials {
+  style: {
+    font-size: 28
+  }
+}
+
+Secret reloader: {
+  style: {
+    font-size: 28
+  }
+
+  BankVaults -> Vault: 5. Detect secret change {
+    style: {
+      font-size: 28
+    }
+  }
+
+  BankVaults -> Workload: 6. Trigger rollout {
+    style: {
+      font-size: 28
+    }
+  }
+}
