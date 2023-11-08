@@ -112,15 +112,27 @@ An Open Source secret management solution for Kubernetes and Hashicorp Vault.
 ## New organization
 
 - GitHub: [https://github.com/bank-vaults/](https://github.com/bank-vaults/)
+- Website: [https://bank-vaults.dev](https://bank-vaults.dev)
+- Next: community meetings
 
 ## CNCF Sandbox
 
+:::: {.columns}
+
+::: {.column width="70%"}
 - Application: [https://github.com/cncf/sandbox/issues/54](https://github.com/cncf/sandbox/issues/54)
+:::
+
+::: {.column width="30%"}
+{{< qrcode width=400 height=400 https://github.com/cncf/sandbox/issues/54 qr3 >}}
+:::
+
+::::
 
 ## BUSL license
 
 - Most components are unaffected
-- Vault-Operator and Helm chart _MAY_ need to be relicensed
+- Vault Operator and Helm chart _MAY_ need to be relicensed
 
 # Thank you
 
