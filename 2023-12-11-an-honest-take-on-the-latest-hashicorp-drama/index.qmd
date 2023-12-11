@@ -1,0 +1,281 @@
+---
+title: "An honest take on the latest HashiCorp drama"
+date: "2023-12-11"
+event: "DevOps BP meetup"
+categories: [hashicorp, oss, terraform, opentofu, community]
+format:
+  revealjs:
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "rgba(115, 69, 182, 1.000)"
+      data-background-transition: slide
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Head of OSS @ OpenMeter_
+
+CNCF Ambassador
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+# Full disclosure
+
+- I have made a career in OSS
+- I maintain Open Source software that uses HashiCorp products
+
+# Agenda
+
+- Timeline
+- What is BUSL?
+- Why, HashiCorp, why?
+- Community reactions
+- OpenTofu (formerly OpenTF)
+- What's next?
+
+# Timeline {.nostretch}
+
+![](assets/timeline.svg){fig-align="center"}
+
+# BUSL: Business Source License
+
+- Source available license
+- Created by MariaDB in 2013
+- Limits production use (requires a commercial license)
+- Change license: license changes back to this after 4 years
+
+[https://spdx.org/licenses/BUSL-1.1.html](https://spdx.org/licenses/BUSL-1.1.html)
+
+## Free vs Open vs Available
+
+_All_: free to copy, modify, distribute code (under the same license)
+
+- Free Software: derivative works must be free as well
+- Open Source: do whatever you want, but keep the license
+- Source Available: limits production use
+
+## BSL vs BUSL
+
+- BUSL is often referred to as BSL
+- BSL: Boost Software License
+
+[https://spdx.org/licenses/BSL-1.0.html](https://spdx.org/licenses/BSL-1.0.html)
+
+## HashiCorp BSL
+
+- Based on MariaDB's BUSL 1.1
+- Additional use grant: allow production use, unless you are a competitor ^[Trouble starts here]
+- Change license: MPL 2.0 (after 4 years)
+- [FAQ](https://www.hashicorp.com/license-faq) (**not legally binding**)
+
+[https://www.hashicorp.com/bsl](https://www.hashicorp.com/bsl)
+
+## HashiCorp BSL: additional use grant ^[Until Oct. 17, 2023; [original text](https://web.archive.org/web/20230812012558/https://www.hashicorp.com/bsl)]
+
+> You may make production use of the Licensed Work, provided such use does not include offering the Licensed Work to third parties on a hosted or **embedded** basis which is **competitive** with HashiCorp's products
+
+## Update (Oct. 17, 2023)
+
+Added clarification to the additional use grant for what is considered _competitive_ and _embedded_, making the interpretation legally binding.
+
+[Current text](https://web.archive.org/web/20231114045445/https://www.hashicorp.com/bsl)
+
+## Embedding
+
+> [...] packaging the competitive offering in such a way that the Licensed Work must be accessed or downloaded for the competitive offering to **operate**.
+
+- What if a software MAY download a HashiCorp product (but works fine without it)? 🤷
+- Does it have to be licensed under BUSL? 🤷
+
+# Why, HashiCorp, why?
+
+> However, there are other vendors who take advantage of pure OSS models, and the community work on OSS projects, for their own commercial goals,
+> without providing material contributions back.
+
+[Announcement](https://www.hashicorp.com/blog/hashicorp-adopts-business-source-license)
+
+::: {.notes}
+Talk about material contributions later
+:::
+
+## Real reason
+
+- Competitors have built products on HC OSS projects
+- HashiCorp is trying to capture part of their revenue
+
+::: {.notes}
+- First rule of Open Core: separate Open Source from the product
+- HashiCorp failed to productize Terraform (and other OSS projects) in a sustainable way
+- They could have just forbid commercial use for competitors
+:::
+
+# Community reactions
+
+::: {.notes}
+- Outrage
+- Justified?
+- Not all intentions are as good as they appear to be
+:::
+
+## RIP Open Source
+
+:::: {.columns}
+
+::: {.column width="50%"}
+- Past contributions
+- Future contributions?
+:::
+
+::: {.column width="50%"}
+![](assets/rip-opensource.png){fig-align="center"}
+:::
+
+::::
+
+::: {.notes}
+- Terraform is a hugely successful OSS project
+- People feel betrayed
+- OSS is a place for innovation
+:::
+
+## HashiCorp claims to be the good guy
+
+> without providing material contributions back
+
+::: {.notes}
+- Hard to gather data
+- People complain about HC not merging contributions
+:::
+
+## Concerns about the license
+
+- Vague language is up for interpretation
+- License could change again
+
+# {#opentofu .nostretch}
+
+![](assets/opentofu-logo.svg){width="40%"}
+
+- Formerly OpenTF
+- Terraform fork
+- Linux Foundation project
+
+[https://opentofu.org](https://opentofu.org)
+
+::: {.notes}
+- Initially petitioned HC to reverse their decision
+- Tensions were high, they quickly moved to fork (~2 weeks)
+- They are getting closer to the first release
+:::
+
+## Promise
+
+- Truly open source
+- Community-driven
+- Impartial
+- Layered and modular
+- Backwards-compatible
+
+::: {.notes}
+- There are various claims about future backwards compatibility
+- OpenTofu ran a successful PR campaign against HC
+- Toned down the rethoric since
+:::
+
+## Who is behind it?
+
+| Company                            | Pledge  | Age      | Terraform product |
+|------------------------------------|---------|----------|-------------------|
+| [Harness](https://www.harness.io/) | 5 FTEs* | 7 years  | Partly            |
+| [Spacelift](https://spacelift.io/) | 5 FTEs* | 4 years  | Yes               |
+| [env0](https://env0.com/)          | 5 FTEs* | 5 years  | Yes               |
+| [Scalr](https://scalr.com/)        | 3 FTEs* | 12 years | Yes               |
+
+[https://opentofu.org/supporters/](https://opentofu.org/supporters/)
+
+::: aside
+*for at least 5 years (**not legally binding**)
+:::
+
+::: {.notes}
+- Startup companies with financial interest in Terraform staying open source (for the moment)
+- First pledge: Spacelift
+- Motivation???
+- They get to be the good guys
+- LF support so early ... could be dangerious
+:::
+
+# What's next?
+
+## Terraform vs OpenTofu
+
+- End users are silent
+- Large companies want to avoid the legal minefield
+
+::: {.notes}
+- I don't mean startups, but the billion dollar companies
+:::
+
+## The saga contnues: OpenBao
+
+:::: {.columns}
+
+::: {.column width="70%"}
+- Vault fork
+- LF Edge (pilot) project (led by IBM)
+- Not officially endorsed yet
+
+[https://ibm.biz/openbao](https://ibm.biz/openbao)
+:::
+
+::: {.column width="30%"}
+![](assets/openbao-logo.png){fig-align="center"}
+:::
+
+::::
+
+## What will HashiCorp do?
+
+- Will they join OpenTofu?
+- Will they change the license again?
+
+::: {.notes}
+- HC seem to have underestimated the competition
+- Do they have anything in their sleeves? (eg. patented features)
+- HC pledged to support non-BUSL versions until the end of the year
+:::
+
+# Final thoughts
+
+::: {.notes}
+- Some of the community outrage is justified
+- HashiCorp could have built better products based on OSS
+- OpenTofu is a successful PR campaign, but it's not over yet
+- More companies seem to be interested in BUSL (eg. ArrangoDB)
+- Sad, but should serve as a wake up call
+:::
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
