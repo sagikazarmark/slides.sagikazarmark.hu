@@ -1,0 +1,318 @@
+---
+title: "Future-Proof Your Platform’s CI/CD Without Developers Noticing a Thing"
+date: "2024-04-25 12:30"
+event: "KCD Romania"
+eventUrl: https://sessionize.com/view/kb2lku7z/GridSmart?format=Embed_Styled_Html&isDark=False&title=KCD%20Romania%202024
+description: |
+    You've just perfected CI and/or CD for your organization, again.
+    It was a huge, frustrating effort, and learning another proprietary DSL or YAML didn't deliver the promised tenfold increase in release frequency.
+    It wasn't the first re-platform and it won’t be the last. Now that things have calmed down, there must be a way to prepare,
+    to future-proof your CI/CD and protect developers, the business, and your sanity.
+
+    In this talk we’ll demonstrate how to use abstraction, containerization, DAGs,
+    and general-purpose programming languages that your team already knows to create portable CI/CD workflows that can run anywhere without rewriting everything.
+    We’ll also highlight how this approach has additional benefits like composability, reuse, testing of CI/CD code itself,
+    and fast feedback loops for developers (since you can run these pipelines locally).
+
+    This talk is aimed at anyone who is expecting to have to re-platform CI/CD again in the future (that’s you) and just wants the pain to stop.
+categories: [cicd, dagger]
+# image: preview.png
+format:
+  revealjs:
+    css: custom.css
+    navigation-mode: vertical
+    title-slide-no-content: true
+    title-slide-attributes:
+      data-background-color: "#030525"
+      data-background-image: title.png
+      data-background-transition: slide
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Head of Open Source @ OpenMeter_
+
+CNCF Ambassador
+
+<br>
+**YAML engineer for life** 😭
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+# CI/CD today
+
+...aka the pain we all know
+
+## Day 1...
+
+...how it starts 😃
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: build the software
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          build
+          test
+          lint
+```
+
+## Day 101...
+
+…760 lines of YAML & Bash 😟
+
+```yaml
+# Foobar pipeline
+# Include the Common CI pipeline parameters.
+include:
+  - project: 'foo/bar/foobarproject/cicdtemplate'
+    file: '/Common.gitlab-ci.yml'
+  #- /force-app/ui-tests/pipeline.yml
+
+stages:
+  - build-metadata-package
+  - run-js-tests
+  - validate-package
+  - deploy-package
+  - run-unit-tests
+  - run-api-tests
+  - run-ui-tests
+  - integration
+
+####################################################
+# Builds the Metadata Package, builds the Package
+# files and Destructive changes
+####################################################
+build-metadata-package:
+  stage: build-metadata-package
+  except:
+    ...
+```
+
+## {#push-and-pray background-color="black" background-image="assets/pushnpray.png" background-size="99%" background-transition="fade"}
+
+::: {.absolute top=0 right=0}
+<h2>Push and pray 🙏</h2>
+:::
+
+## Developer environment
+
+```sh
+brew install go
+brew install golangci-lint
+
+make build
+make test
+make lint
+```
+
+::: {.notes}
+- brew vs nix vs golang.org
+- versions?
+- BSD vs GNU (make, sed, etc)
+:::
+
+## CI/CD environment
+
+```{.yaml code-line-numbers="|3,10"}
+- uses: actions/setup-go@v4
+  with:
+    go-version: "1.21.3"
+
+- run: go build .
+- run: go test -race -v ./…
+
+- uses: golangci/golangci-lint-action@v3
+  with:
+    version: "v1.54.2"
+```
+
+::: {.fragment}
+::: {.callout-important appearance="minimal"}
+**We are still dealing with drift in 2024?!**
+:::
+:::
+
+::: {.notes}
+- custom, vendor-specific format
+:::
+
+## All is well until you need to make changes
+
+- Upgrades (eg. new version of Go)
+- New tooling (eg. new security scanner)
+- Moving to a new platform
+
+::: {.notes}
+- company gets acquired and needs to move to the new parent company's platform
+:::
+
+# Lessons learned
+
+## YAML...
+
+- is not reusable ^[Anchors don't count]
+- is not composable
+- provides poor flow control
+- is not portable
+
+::: {.callout-important appearance="minimal"}
+**YAML is a poor choice of "language" for software development workflows.**
+:::
+
+## CI/CD is just an interface
+
+- Developer and CI environments overlap
+- Drift between them is annoying
+- Time wasted due to "push and pray"
+- CI/CD is no longer a dev or platform only domain
+
+::: {.callout-tip appearance="minimal"}
+**Dev + CI = Software development workflows**
+:::
+
+::: {.notes}
+- even if they don't overlap, they should -> run locally
+:::
+
+# {#dagger .nostretch background-color="#030525" background-transition="slide"}
+
+![](assets/dagger.svg){fig-align="center"}
+
+## No more YAML
+
+- Use a general-purpose programming language
+- One that developers/platform engineers already know
+- Reuseable components
+
+## Workflows that run anywhere
+
+- Run CI locally
+- No more push and pray
+- No more drift between dev and CI
+- Bridge between developers and platform engineers
+
+::: {.notes}
+- maximize reuse between dev and CI
+:::
+
+## Show me the code!
+
+```go
+func (m *Ci) Test() *Container {
+	return Container().
+        From("golang").
+		WithSource(dag.Directory()).
+		Exec([]string{"go", "test", "-v", "./..."})
+}
+```
+
+## More code!
+
+```go
+func (m *Ci) Test() *Container {
+	return dag.Go().
+		WithSource(m.Source).
+		Exec([]string{"go", "test", "-v", "./..."})
+}
+```
+
+## Running locally
+
+```shell
+dagger call test
+```
+
+## Running in CI {.smaller}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+
+**Jenkins**
+
+```gradle
+pipeline { agent { label 'dagger' }
+  stages {
+    stage("dagger") {
+      steps {
+        sh '''
+          dagger call <build/test/deploy>
+        '''
+      }
+    }
+  }
+}
+```
+
+:::
+
+::: {.column width="50%"}
+
+**GitHub Actions**
+
+```yaml
+name: CI
+on:
+  push:
+    branches: [main]
+
+jobs:
+  dagger:
+    name: dagger
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: dagger call <build/test/deploy>
+```
+
+:::
+
+::::
+
+# {#demo .nostretch background-color="#030525" background-transition="slide"}
+
+:::: {.columns .v-center-container}
+
+::: {.column style="width: 40%; text-align: center; font-size: 200%"}
+**MOAR CODE!!!**
+:::
+
+::: {.column width="60%"}
+![](assets/unicorn.png){fig-align="center"}
+:::
+
+::::
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
