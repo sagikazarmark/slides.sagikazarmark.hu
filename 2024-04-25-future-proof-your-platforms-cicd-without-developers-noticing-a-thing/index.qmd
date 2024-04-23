@@ -16,7 +16,7 @@ description: |
 
     This talk is aimed at anyone who is expecting to have to re-platform CI/CD again in the future (that’s you) and just wants the pain to stop.
 categories: [cicd, dagger]
-# image: preview.png
+image: preview.png
 format:
   revealjs:
     css: custom.css
