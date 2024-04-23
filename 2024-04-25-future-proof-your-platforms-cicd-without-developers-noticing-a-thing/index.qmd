@@ -304,6 +304,10 @@ jobs:
 
 ::::
 
+## Demo content
+
+[https://github.com/sagikazarmark/demo-kcd-bucharest-2024](https://github.com/sagikazarmark/demo-kcd-bucharest-2024)
+
 # Thank you
 
 _Any questions?_
