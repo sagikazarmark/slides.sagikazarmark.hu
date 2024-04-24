@@ -220,7 +220,7 @@ make lint
 
 ```go
 func (m *Ci) Test() *Container {
-	return Container().
+	return dag.Container().
         From("golang").
 		WithSource(dag.Directory()).
 		Exec([]string{"go", "test", "-v", "./..."})
