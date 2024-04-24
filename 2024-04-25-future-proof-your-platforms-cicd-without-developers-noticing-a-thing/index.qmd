@@ -222,8 +222,9 @@ make lint
 func (m *Ci) Test() *Container {
 	return dag.Container().
         From("golang").
-		WithSource(dag.Directory()).
-		Exec([]string{"go", "test", "-v", "./..."})
+        WithWorkdir("/src").
+		WithMountedDirectory("/src", dag.Directory()).
+		WithExec([]string{"go", "test", "-v", "./..."})
 }
 ```
 
