@@ -252,7 +252,7 @@ dagger call test
 
 **Jenkins**
 
-```gradle
+```groovy
 pipeline { agent { label 'dagger' }
   stages {
     stage("dagger") {
