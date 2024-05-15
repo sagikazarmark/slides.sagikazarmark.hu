@@ -1,0 +1,129 @@
+---
+title: "Secure registry access with Dagger"
+date: "2024-05-16 9:00"
+event: "Dagger Community Call"
+categories: [cicd, dagger, security, oci, "secret management", "container images"]
+# image: preview.png
+format:
+  revealjs:
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "#141226"
+      data-background-transition: slide
+---
+
+# Problem
+
+- OCI tools write credentials to the filesystem ^[or OS keychain]
+    - `docker login`
+    - `helm registry login`
+- Writing sensitive info to the filesystem is a **bad idea** in Dagger
+- Need an alternative way to authenticate with container registries _safely_
+
+# How it works
+
+- `helm registry login`
+- Client may or may not contact the registry
+- Username and password are stored in a config file
+- Credentials are used to authenticate with the registry when pushing/pulling
+
+## In Daggerlang
+
+```go
+var password *Secret
+
+dag.Container().
+    From("alpine/helm").
+    WithSecretVariable("HELM_PASSWORD", password).
+    WithExec([]string{
+        "sh", "-c",
+        "helm registry login ghcr.io --username me --password $HELM_PASSWORD",
+    })
+    WithoutSecretVariable("HELM_PASSWORD") // For good higiene
+```
+
+## Config file ^[yes, I know about credential helpers]
+
+`~/.config/helm/registry/config.json`
+
+```json
+{
+  "auths": {
+    "ghcr.io": {
+      "auth": "base64(username:password)"
+    }
+  }
+}
+```
+
+# 💡 Idea
+
+Can we mount that file as a secret into the container?
+
+## Yes, we can
+
+```go
+// registry config file contents
+const registryConfig *Secret
+
+dag.Container().
+    From("alpine/helm").
+    WithMountedSecret("HELM_HOME/registry/config.json", registryConfig)
+```
+
+## Taking it further
+
+Let's build a module for it!
+
+```go
+var password *Secret
+
+config, _ := dag.RegistryConfig().
+    WithRegistryAuth("ghcr.io", "me", password).
+    Secret(ctx)
+
+dag.Container().
+    WithMountedSecret("HELM_HOME/registry/config.json", config)
+```
+
+Find it as [registry-config](https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/registry-config) on Daggerverese!
+
+## One more thing...
+
+```go
+var password *Secret
+
+config := dag.RegistryConfig().
+    WithRegistryAuth("ghcr.io", "me", password)
+
+dag.Container().
+    With(config.SecretMount("HELM_HOME/registry/config.json").Mount)
+```
+
+# {#demo}
+
+![](assets/demo.jpg)
+
+# Future: OCI Auth spec
+
+- OCI Auth working group
+- [https://github.com/opencontainers/wg-auth](https://github.com/opencontainers/wg-auth)
+
+# Links
+
+- Blog post: [Secure registry access with Dagger](https://openmeter.io/blog/secure-registry-access-with-dagger)
+- [DIY Private Container Registry](https://www.youtube.com/watch?v=lYpuwZ-m6Tw) ([Slides](https://slides.sagikazarmark.hu/2023-09-21-diy-private-container-registry/))
+- [registry-config](https://daggerverse.dev/mod/github.com/sagikazarmark/daggerverse/registry-config) module
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
