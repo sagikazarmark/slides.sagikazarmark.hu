@@ -98,7 +98,7 @@ There is no silver bullet.
 
 ## Cloud Native application
 
-- Delivered as a container (ideally)
+- Delivered as a container
 - Horizontally scalable
 - Resilient
 - Observable
