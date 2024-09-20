@@ -1,0 +1,151 @@
+---
+title: "Navigating the Cloud: How to Avoid Dead Ends"
+date: "2024-09-20 14:00"
+event: "AWS Lounge Hungary"
+eventUrl: https://devertix.com/aws-lounge-hungary-irany-a-felho/
+description: |
+    Hónapok óta tart már a felhő migráció, ami az elején pár hetes projektnek indult.
+    Nagyon nem látszik még a vége, pedig rengeteg idő és pénz belement már.
+    A termékfejlesztés is hónapok óta áll már emiatt.
+    Ha hasonló szituációban találod magad, akkor nem vagy egyedül.
+    Sok szervezet küzd a felhőbe migrálással és a rengeteg frusztráció után szinte sosem egyértelmű, hogy hol is csúszott félre a projekt.
+    Ezekről a problémákról és a felhőbe migrálás kihívásairól lesz szó az előadás során.
+categories: [cloud]
+# image: preview.png
+format:
+  revealjs:
+    navigation-mode: vertical
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Head of Open Source @ OpenMeter_
+
+Cloud Native Ambassador
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-h1-2024.png){.absolute top=0 right=0 width="300"}
+
+# No silver bullet
+
+# ~60% of cloud adoption challenges are not technical
+
+- No alignment on goals
+- Lack of skills / experience
+- Lack of processes
+- Underestimating costs
+- Compliance & security
+
+# Pre-adoption challenges
+
+## Adopting cloud for the wrong reasons
+
+- Dev: "I want more control over the infrastructure"
+- Ops: "I want to stay on the job market"
+- Biz/mgmt: "I don't care, just make it cheap and work"
+
+::: {.notes}
+- What are the "right" reasons?
+- It depends (on the org/app)
+:::
+
+## Stakeholder unalignment
+
+- Dev: "Ops problem, I don't care"
+- Ops: "I can't run this shitty application in the cloud"
+- Biz/mgmt: "I don't care, just make it cheap and work"
+
+## Adoption strategy
+
+- Lift an shift
+- Greenfield projects
+
+...anything in-between
+
+## Underestimating costs
+
+- Cost of hiring new talent / picking up skills in-house
+- Cost of application changes
+- Too wide scope
+- Unidentified gaps
+
+# The technical bits
+
+## Cloud vs On-premise
+
+- Resource allocation: easier, faster, unlimited
+- Managed services
+
+## Cloud Native
+
+::: {.fragment}
+> Cloud Native is a set of contracts between dev and ops to streamline the delivery of applications in the cloud.
+:::
+
+## Cloud Native application
+
+- Delivered as a container (ideally)
+- Horizontally scalable
+- Resilient
+- Observable
+- Uses cloud services (eg. for storage)
+
+::: {.notes}
+- Greenfield: easy
+- Brownfield: what to migrate? is it possible? is it worth it?
+- Containerization is the contract between dev and ops
+:::
+
+## Cloud Native infrastructure / platform
+
+- Runs containers (container orchestration)
+- (Automatically) scales applications (and itself)
+- Observes applications, provides debug information, auto-heals (when possible)
+
+## ...and a gazillion other things
+
+- Managed data services
+- Scaling
+- Observability
+- IaC
+- Security
+- Compliance
+
+::: {.notes}
+- It takes time to get these right
+:::
+
+## Microservices
+
+> "This application can only run in the cloud if it's rewritten as microservices"
+
+# Summary
+
+- Align goals and stakeholders
+- Identify gaps
+- Pick the right scope
+- Bridge the gap between dev and ops
+- Iterate
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
