@@ -36,7 +36,9 @@ Cloud Native Ambassador
 
 ![](assets/cncf-ambassador-h1-2024.png){.absolute top=0 right=0 width="300"}
 
-# No silver bullet
+# Bad news
+
+There is no silver bullet.
 
 # ~60% of cloud adoption challenges are not technical
 
@@ -90,6 +92,8 @@ Cloud Native Ambassador
 
 ::: {.fragment}
 > Cloud Native is a set of contracts between dev and ops to streamline the delivery of applications in the cloud.
+
+[Definition](https://github.com/cncf/toc/blob/main/DEFINITION.md)
 :::
 
 ## Cloud Native application
