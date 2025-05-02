@@ -1,0 +1,275 @@
+---
+title: "Accelerate Your Development and CI/CD Pipelines with Dagger"
+date: "2025-05-05 14:00"
+event: "Cloud Native Days Romania"
+eventUrl: https://cloudnativedays.ro/workshops/
+description: |
+    Tired of environment drift and inconsistent build results across machines and CI servers? Frustrated by onboarding delays when setting up development environments on new hardware or debugging why scripts fail in CI but work locally?
+
+    If any of the above resonates, this workshop (and Dagger) is for you.
+
+    Dagger is a portable, programmable CI/CD engine that runs your pipelines in containers. In this workshop, we'll explore how Dagger can:
+
+    - Eliminate Environment Discrepancies: Use containerization to ensure your development and CI environments are identical.
+    - Simplify Onboarding: Create self-contained environments that new team members can spin up instantly.
+    - Streamline CI/CD Pipelines: Define complex pipelines with code-first configuration, reducing failures due to environment differences.
+    - Enhance Productivity: Focus on coding rather than environment setup and debugging.
+    - Through a hands-on session, we'll port an existing development and CI setup to Dagger using a realistic example project. You'll gain practical experience in:
+    - Writing Dagger pipelines using Go
+    - Orchestrating builds, tests, and deployments in a consistent environment
+    - Integrating Dagger into existing workflows
+
+    By the end of this workshop, you'll be equipped to leverage Dagger to standardize environments, accelerate your CI/CD pipelines, and improve team collaboration.
+categories: [cicd, dagger]
+image: preview.png
+format:
+  revealjs:
+    css: custom.css
+    navigation-mode: vertical
+    title-slide-no-content: true
+    title-slide-attributes:
+      data-background-color: "#030525"
+      data-background-image: title.png
+      data-background-transition: slide
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Cloud Native Ambassador_
+
+<br>
+**YAML engineer for life** 😭
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.com](https://sagikazarmark.com)
+
+[hello@sagikazarmark.com](mailto:hello@sagikazarmark.com)
+
+![](assets/cncf-ambassador-h1-2024.png){.absolute top=0 right=0 width="300"}
+
+# Agenda
+
+- Introduction
+- Module 1: Getting to know Dagger
+- Module 2: Let's Daggerize
+- Module 3: Working with modules
+- Module 4: Integrating with GitHub Actions
+- Module 5: Publishing artifacts
+- Q&A
+
+# CI/CD today
+
+...aka the pain we all know
+
+## Day 1...
+
+...how it starts 😃
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: build the software
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          build
+          test
+          lint
+```
+
+## Day 101...
+
+…760 lines of YAML & Bash 😟
+
+```yaml
+# Foobar pipeline
+# Include the Common CI pipeline parameters.
+include:
+  - project: 'foo/bar/foobarproject/cicdtemplate'
+    file: '/Common.gitlab-ci.yml'
+  #- /force-app/ui-tests/pipeline.yml
+
+stages:
+  - build-metadata-package
+  - run-js-tests
+  - validate-package
+  - deploy-package
+  - run-unit-tests
+  - run-api-tests
+  - run-ui-tests
+  - integration
+
+####################################################
+# Builds the Metadata Package, builds the Package
+# files and Destructive changes
+####################################################
+build-metadata-package:
+  stage: build-metadata-package
+  except:
+    ...
+```
+
+## {#push-and-pray background-color="black" background-image="assets/pushnpray.png" background-size="99%" background-transition="fade"}
+
+::: {.absolute top=0 right=0}
+<h2>Push and pray 🙏</h2>
+:::
+
+## Developer environment
+
+```sh
+brew install go
+brew install golangci-lint
+
+make build
+make test
+make lint
+```
+
+::: {.notes}
+- brew vs nix vs golang.org
+- versions?
+- BSD vs GNU (make, sed, etc)
+:::
+
+## CI/CD environment
+
+```{.yaml code-line-numbers="|3,10"}
+- uses: actions/setup-go@v5
+  with:
+    go-version: "1.24.0"
+
+- run: go build .
+- run: go test -race -v ./…
+
+- uses: golangci/golangci-lint-action@v7
+  with:
+    version: "v2.0.0"
+```
+
+::: {.fragment}
+::: {.callout-important appearance="minimal"}
+**We are still dealing with drift in 2025?!**
+:::
+:::
+
+::: {.notes}
+- custom, vendor-specific format
+:::
+
+## All is well until you need to make changes
+
+- Upgrades (eg. new version of Go)
+- New tooling (eg. new security scanner)
+- Moving to a new platform
+
+::: {.notes}
+- company gets acquired and needs to move to the new parent company's platform
+:::
+
+# Lessons learned
+
+## YAML...
+
+- is not reusable ^[Anchors don't count]
+- is not composable
+- provides poor flow control
+- is not portable
+
+::: {.callout-important appearance="minimal"}
+**YAML is a poor choice of "language" for software development workflows.**
+:::
+
+## CI/CD is just an interface
+
+- Developer and CI environments overlap
+- Drift between them is annoying
+- Time wasted due to "push and pray"
+- CI/CD is no longer a dev or platform only domain
+
+::: {.callout-tip appearance="minimal"}
+**Dev + CI = Software development workflows**
+:::
+
+::: {.notes}
+- even if they don't overlap, they should -> run locally
+:::
+
+# {#dagger .nostretch background-color="#030525" background-transition="slide"}
+
+![](assets/dagger.svg){fig-align="center"}
+
+## No more YAML
+
+- Use a general-purpose programming language
+- One that developers/platform engineers already know
+- Reuseable components
+
+## Workflows that run anywhere
+
+- Run CI locally
+- No more push and pray
+- No more drift between dev and CI
+- Bridge between developers and platform engineers
+
+::: {.notes}
+- maximize reuse between dev and CI
+:::
+
+# Workshop
+
+_Let's get our hands dirty!_
+
+## Workshop environment
+
+:::: {.columns}
+
+::: {.column width="60%"}
+- Use your own machine
+- Use the [online playground](https://labs.iximiuz.com/trainings/2025-05-05-cnd-romania-dagger-workshop-0b26690c)
+:::
+
+::: {.column width="40%"}
+{{< qrcode width=250 height=250 https://labs.iximiuz.com/trainings/2025-05-05-cnd-romania-dagger-workshop-0b26690c qr1 >}}
+[_[bit.ly/cndro25-ws-dagger](https://bit.ly/cndro25-ws-dagger)_]{.class style="font-size: 70%"}
+:::
+
+::::
+
+## Prerequisites
+
+-  Make sure Docker is installed and running.
+-  Make sure [Go](https://go.dev/dl/) is installed.
+-  Install the latest [Dagger CLI](https://docs.dagger.io/install).
+-  Make sure you have a [GitHub](https://github.com) account set up with SSH keys.
+-  Last, but not least: you'll need your favorite text editor or IDE.
+
+## Workshop materials
+
+[https://github.com/sagikazarmark/workshop-cnd-romania-2025](https://github.com/sagikazarmark/workshop-cnd-romania-2025)
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.com](https://sagikazarmark.com)
+
+[hello@sagikazarmark.com](mailto:hello@sagikazarmark.com)
