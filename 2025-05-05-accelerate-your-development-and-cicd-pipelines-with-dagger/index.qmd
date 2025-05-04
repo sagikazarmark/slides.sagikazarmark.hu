@@ -21,16 +21,15 @@ description: |
 
     By the end of this workshop, you'll be equipped to leverage Dagger to standardize environments, accelerate your CI/CD pipelines, and improve team collaboration.
 categories: [cicd, dagger]
-image: preview.png
+# image: preview.png
 format:
   revealjs:
     css: custom.css
     navigation-mode: vertical
-    title-slide-no-content: true
     title-slide-attributes:
       data-background-color: "#030525"
-      data-background-image: title.png
       data-background-transition: slide
+    logo: assets/dagger-on-white.svg
 ---
 
 # `whoami`

@@ -6,5 +6,9 @@
 }
 
 .v-center-container > .column {
-    vertical-align: middle;
+  vertical-align: middle;
+}
+
+.reveal.has-dark-background .slide-logo {
+  display: none !important;
 }
