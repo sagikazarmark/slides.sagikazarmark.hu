@@ -215,7 +215,7 @@ make lint
 
 - Use a general-purpose programming language
 - One that developers/platform engineers already know
-- Reuseable components
+- Reusable components
 
 ## Workflows that run anywhere
 
