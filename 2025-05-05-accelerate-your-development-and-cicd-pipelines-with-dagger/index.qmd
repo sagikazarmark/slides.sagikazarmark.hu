@@ -260,6 +260,11 @@ _Let's get our hands dirty!_
 
 [https://github.com/sagikazarmark/workshop-cnd-romania-2025](https://github.com/sagikazarmark/workshop-cnd-romania-2025)
 
+# Feedback
+
+{{< qrcode width=400 height=400 https://forms.gle/ffDQhySWwfUByZAWA qr2 >}}
+[https://forms.gle/ffDQhySWwfUByZAWA](https://forms.gle/ffDQhySWwfUByZAWA)
+
 # Thank you
 
 _Any questions?_
