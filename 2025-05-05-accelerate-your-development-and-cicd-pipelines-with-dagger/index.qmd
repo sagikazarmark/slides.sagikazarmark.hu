@@ -245,7 +245,7 @@ _Let's get our hands dirty!_
 
 ::: {.column width="40%"}
 {{< qrcode width=250 height=250 https://labs.iximiuz.com/trainings/2025-05-05-cnd-romania-dagger-workshop-0b26690c qr1 >}}
-[_[bit.ly/cndro25-ws-dagger](https://bit.ly/cndro25-ws-dagger)_]{.class style="font-size: 70%"}
+[_[skm.li/cndro25/play](https://skm.li/cndro25/play)_]{.class style="font-size: 70%"}
 :::
 
 ::::
@@ -262,6 +262,8 @@ _Let's get our hands dirty!_
 
 [https://github.com/sagikazarmark/workshop-cnd-romania-2025](https://github.com/sagikazarmark/workshop-cnd-romania-2025)
 
+[skm.li/cndro25](https://skm.li/cndro25)
+
 # Real world exampes
 
 [github.com/openmeterio/openmeter](https://github.com/openmeterio/openmeter)
@@ -271,7 +273,10 @@ _Let's get our hands dirty!_
 # Feedback
 
 {{< qrcode width=400 height=400 https://forms.gle/ffDQhySWwfUByZAWA qr2 >}}
+
 [https://forms.gle/ffDQhySWwfUByZAWA](https://forms.gle/ffDQhySWwfUByZAWA)
+
+[skm.li/cndro25/feedback](https://skm.li/cndro25/feedback)
 
 # Thank you
 
