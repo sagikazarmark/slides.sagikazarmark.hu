@@ -38,6 +38,8 @@ format:
 
 _Cloud Native Ambassador_
 
+_Dagger Commander_
+
 <br>
 **YAML engineer for life** 😭
 
