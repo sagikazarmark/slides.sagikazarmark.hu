@@ -10,6 +10,8 @@ listing:
   categories: true
   sort-ui: false
   filter-ui: false
+  # exclude:
+  #   hidden: "true"
 page-layout: full
 title-block-banner: true
 # format: html
