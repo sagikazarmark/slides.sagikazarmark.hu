@@ -223,7 +223,7 @@ There is a missing piece.
 
 ![](assets/nopushnpray-profit.svg){fig-align="center"}
 
-## 💡 Portable environments
+## 💡 Portable workflows
 
 Run the same workflow:
 
@@ -366,7 +366,7 @@ func push() {
 
 :::: {.columns}
 
-::: {.column width="35%"}
+::: {.column width="50%"}
 ~~🔀 Environment drift~~
 
 ~~🙏 Push'n'Pray~~
@@ -377,15 +377,9 @@ func push() {
 ::: {.column width="50%"}
 → Unified environments
 
-→ Portable environments
+→ Portable workflows
 
 → Programmable workflows
-:::
-
-::: {.column width="15%"}
-::: {.fragment}
-![](assets/containers.webp){style="margin-top:-12px;"}
-:::
 :::
 
 ::::
