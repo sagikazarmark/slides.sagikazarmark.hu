@@ -14,7 +14,9 @@ description: |
     - Simplify Onboarding: Create self-contained environments that new team members can spin up instantly.
     - Streamline CI/CD Pipelines: Define complex pipelines with code-first configuration, reducing failures due to environment differences.
     - Enhance Productivity: Focus on coding rather than environment setup and debugging.
-    - Through a hands-on session, we'll port an existing development and CI setup to Dagger using a realistic example project. You'll gain practical experience in:
+
+    Through a hands-on session, we'll port an existing development and CI setup to Dagger using a realistic example project. You'll gain practical experience in:
+
     - Writing Dagger pipelines using Go
     - Orchestrating builds, tests, and deployments in a consistent environment
     - Integrating Dagger into existing workflows
@@ -55,17 +57,31 @@ _Dagger Commander_
 ![](assets/cncf-ambassador-h1-2024.png){.absolute top=0 right=0 width="300"}
 ![](assets/dagger-commander.svg){.absolute top=350 right=0 width="300"}
 
-# Agenda
+# 📋 Agenda
 
-- Introduction
-- Module 1: Getting to know Dagger
-- Module 2: Let's Daggerize
-- Module 3: Working with modules
-- Module 4: Publishing artifacts
-- Module 5: Integrating with GitHub Actions
-- Q&A
+- 🗣️ Why are we here?
+- 📚 Module 1: Let's Daggerize
+- 📚 Module 2: Working with modules
+- 📚 Module 3: Publishing artifacts
+- 📚 Module 4: Integrating with GitHub Actions
+- ❓Q&A
+- 🎁 Surprise _(if time allows)_
 
-# Environment drift
+# 📈 Accelerate
+
+:::: {.columns}
+
+::: {.column width="40%"}
+= room for improvement
+:::
+
+::: {.column width="60%"}
+![](assets/areas-of-improvement.webp){fig-align="center"}
+:::
+
+::::
+
+# 🔀 Environment drift
 
 ## Developer environment
 
@@ -81,8 +97,12 @@ task lint
 
 ::: {.fragment}
 ::: {.callout-important appearance="minimal"}
-**What version of Go have you just installed?**
+**What version of Go did you just install?**
 :::
+:::
+
+::: {.notes}
+Consistent onboarding experience?
 :::
 
 ## CI/CD environment
@@ -102,6 +122,7 @@ task lint
 
 ::: {.notes}
 - custom, vendor-specific format
+- different from dev scripts
 :::
 
 ## Artifacts
@@ -117,21 +138,58 @@ FROM alpine
 COPY --from=go /app /usr/local/bin/
 ```
 
-## Is there a way to create portable environments that work the same on every machine?
+::: {.notes}
+- different from dev and CI scripts
+:::
 
-## Containers!
+## Why is this a problem?
 
-## Is `docker run` the answer?
+:::: {.columns .v-center-container}
 
-- It's inconvenient
-- No "workflow"
-- There is a missing piece
+::: {.column width="50%"}
+- Maintenance burden
+- Hidden bugs
+- Undermines trust in processes ^["it always fails, just ignore it"]
+- Onboarding friction
+:::
 
-## {#environments}
+::: {.column width="50%"}
+![](assets/dev-problem.webp){fig-align="center"}
+:::
+
+::::
+
+## 💡 Unified environments
 
 ![](assets/environments.svg){fig-align="center"}
 
-# Push'n'Pray
+Dev + CI/CD + Artifacts = software delivery pipelines/workflows
+
+::: {.notes}
+CI becomes a quality gate
+:::
+
+## I wish there was...
+
+## {#containers}
+
+![](assets/containers.webp){fig-align="center"}
+
+## Is `docker run` the answer?
+
+::: {.fragment}
+It gives you containers...
+:::
+
+::: {.fragment}
+...but not workflows.
+:::
+
+::: {.notes}
+There is a missing piece.
+:::
+
+# 🙏 Push'n'Pray
 
 ## {#pushnpray-code transition="fade"}
 
@@ -145,13 +203,13 @@ COPY --from=go /app /usr/local/bin/
 
 ![](assets/pushnpray-wait.svg){fig-align="center"}
 
-## {#pushnpray-eternity background-image="assets/eternity.png" background-transition="slide" background-transition-speed="fast"}
+## {#pushnpray-eternity background-image="assets/eternity.webp" background-transition="slide" background-transition-speed="fast"}
 
 ## {#pushnpray-fail}
 
 ![](assets/pushnpray-fail.svg){fig-align="center"}
 
-## {#pushnpray-github background-color="black" background-image="assets/pushnpray.png" background-transition="fade"}
+## {#pushnpray-github background-color="black" background-image="assets/pushnpray.webp" background-transition="fade"}
 
 ## {#pushnpray-pain}
 
@@ -165,13 +223,21 @@ COPY --from=go /app /usr/local/bin/
 
 ![](assets/nopushnpray-profit.svg){fig-align="center"}
 
+## 💡 Portable environments
+
+Run the same workflow:
+
+- in dev
+- in CI
+- anywhere
+
 ## No more Push'n'Pray
 
 - ⌛ Shorter feedback loop
 - 💸 Less CI resources wasted ^[Planet Earth sends her regards]
-- 🤯 You stay sane
+- 🤯 You maintain your sanity
 
-# YAML
+# ✍️ YAML
 
 ## Day 1...
 
@@ -195,7 +261,7 @@ jobs:
 
 ## Day 101
 
-700+ lines of YAML & Bash monstrosity
+700+ lines of YAML & Bash chaos
 
 ```yaml
 # Foobar pipeline
@@ -225,9 +291,12 @@ build-metadata-package:
     ...
 ```
 
-## How did we end up in this mess?
+## 🤔 How did we end up in this mess?
 
-## YAML is a _data serialization_ language
+::: {.incremental}
+- YAML is a _data serialization_ language
+- Workflows are not strictly imperative or declarative
+:::
 
 ## YAML...
 
@@ -237,36 +306,10 @@ build-metadata-package:
 - is not portable (vendor lock-in)
 
 ::: {.callout-important appearance="minimal"}
-**YAML is a poor choice of language for software development workflows.**
+**YAML is a poor choice of language for software delivery workflows.**
 :::
 
-## How about using a _real_ programming language?
-
-::: {.notes}
-Stop treating software pipelines as configuration.
-:::
-
-## How about using a programming language _you already know_?
-
-## Programming language + Containers = Dagger
-
-- Write your pipelines in plain code
-- Orchestrate containers
-- No more fragile pipelines that nobody can fix
-
-## Example: Dagger Function
-
-```go
-func (m *Module) Build() *dagger.Container {
-    return dag.Container().
-        From("golang").
-        WithExec([]string{"go", "build", "-o", "app", "."})
-}
-```
-
-## TODO: diagram explaining how dagger functions work
-
-## Example: Control Flow
+## Example: Control Flow {visibility="hidden"}
 
 :::: {.columns}
 
@@ -295,6 +338,79 @@ if release {
 :::
 
 ::::
+
+## How about using a _real_ programming language?
+
+::: {.notes}
+Stop treating software pipelines as configuration.
+:::
+
+## How about using a programming language _you already know_?
+
+## Example (pseudo code)
+
+```go
+func build() Binary {
+    return go.Build(".")
+}
+
+func push() {
+    ctr := newContainer().
+        copy("/app", build())
+
+    pushContainer(ctr)
+}
+```
+
+# 👍 Ideal solution
+
+:::: {.columns}
+
+::: {.column width="35%"}
+~~🔀 Environment drift~~
+
+~~🙏 Push'n'Pray~~
+
+~~✍️ YAML~~
+:::
+
+::: {.column width="50%"}
+→ Unified environments
+
+→ Portable environments
+
+→ Programmable workflows
+:::
+
+::: {.column width="15%"}
+::: {.fragment}
+![](assets/containers.webp){style="margin-top:-12px;"}
+:::
+:::
+
+::::
+
+# {#dagger .nostretch background-color="#030525" background-transition="slide"}
+
+![](assets/dagger.svg){fig-align="center"}
+
+## Programming language + Containers = Dagger
+
+- Write your pipelines in plain code
+- Orchestrate containers
+- No more fragile pipelines that nobody can fix
+
+## Example: Dagger Function
+
+```go
+func (m *Module) Build() *dagger.Container {
+    return dag.Container().
+        From("golang").
+        WithExec([]string{"go", "build", "-o", "app", "."})
+}
+```
+
+## TODO: diagram explaining how dagger functions work
 
 # Workshop
 
@@ -330,23 +446,31 @@ _Let's get our hands dirty!_
 
 [skm.li/TODO](https://skm.li/TODO)
 
-# Real world exampes
+# 🔭 Dagger in the Wild
 
 [github.com/openmeterio/openmeter](https://github.com/openmeterio/openmeter)
 
 [github.com/twirphp/twirp](https://github.com/twirphp/twirp)
 
-# Feedback
+# Any questions?
 
-{{< qrcode width=400 height=400 https://forms.gle/TODO qr2 >}}
+:::: {.columns}
 
+::: {.column width="50%"}
 [https://forms.gle/TODO](https://forms.gle/TODO)
 
 [skm.li/TODO](https://skm.li/TODO)
+:::
 
-# Thank you
+::: {.column width="50%"}
+{{< qrcode width=400 height=400 https://forms.gle/TODO qr2 >}}
+:::
 
-_Any questions?_
+::::
+
+# 👋 Thank you
+
+Stay in touch!
 
 <br>
 <br>
@@ -356,3 +480,133 @@ _Any questions?_
 [https://sagikazarmark.com](https://sagikazarmark.com)
 
 [hello@sagikazarmark.com](mailto:hello@sagikazarmark.com)
+
+# 🎮 Game {visibility="uncounted"}
+
+::: {.fragment}
+Guess which image is AI generated.
+:::
+
+## {#game-img1 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/areas-of-improvement.webp){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+AI generated
+:::
+:::
+
+::::
+
+## {#game-img2 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/dev-problem.webp){.lightbox fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+![](assets/dev-problem.orig.webp){.lightbox fig-align="center"}
+:::
+:::
+
+::::
+
+::: {.fragment fragment-index=1}
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+AI generated
+:::
+
+::: {.column width="50%"}
+Original
+:::
+
+::::
+:::
+
+## {#game-img3 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/containers.webp){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+AI generated
+:::
+:::
+
+::::
+
+## {#game-img4 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/eternity.webp){.lightbox fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+![](assets/eternity.orig.webp){.lightbox fig-align="center"}
+:::
+:::
+
+::::
+
+::: {.fragment fragment-index=1}
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+AI generated
+:::
+
+::: {.column width="50%"}
+Original
+:::
+
+::::
+:::
+
+## {#game-img5 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/pushnpray.webp){.lightbox fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+![](assets/pushnpray.orig.webp){fig-align="center"}
+:::
+:::
+
+::::
+
+::: {.fragment fragment-index=1}
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+AI generated
+:::
+
+::: {.column width="50%"}
+Original
+:::
+
+::::
+:::
+
+## 🎮 Thanks for playing! {visibility="uncounted"}
