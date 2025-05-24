@@ -295,7 +295,7 @@ build-metadata-package:
 
 ::: {.incremental}
 - YAML is a _data serialization_ language
-- Workflows are not strictly imperative or declarative
+- Workflows are not strictly declarative
 :::
 
 ## YAML...
