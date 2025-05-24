@@ -388,23 +388,55 @@ func push() {
 
 ![](assets/dagger.svg){fig-align="center"}
 
-## Programming language + Containers = Dagger
+## Dagger Functions
 
-- Write your pipelines in plain code
+- Write your workflows as code
 - Orchestrate containers
-- No more fragile pipelines that nobody can fix
+- Run them anywhere
 
-## Example: Dagger Function
+## {#dagger-function-flow}
+
+![](assets/dagger-function.svg){fig-align="center"}
+
+## Dagger Function Example
+
+::: {.panel-tabset}
+
+### Go
 
 ```go
-func (m *Module) Build() *dagger.Container {
+func (m *Module) Build() *dagger.File {
     return dag.Container().
         From("golang").
-        WithExec([]string{"go", "build", "-o", "app", "."})
+        WithExec([]string{"go", "build", "-o", "app", "."}).
+        File("/app")
 }
 ```
 
-## TODO: diagram explaining how dagger functions work
+### Python
+
+```python
+@function
+def build(self) -> dagger.Container:
+    return dag.container().
+        from("golang").
+        with_exec(["go", "build", "-o", "app", "."]).
+        file("/app")
+```
+
+### TypeScript
+
+```typescript
+  @func()
+  build(): Container {
+    return dag.container().
+      from("golang").
+      withExec(["go", "build", "-o", "app", "."]).
+      file("/app")
+  }
+```
+
+:::
 
 # Workshop
 
