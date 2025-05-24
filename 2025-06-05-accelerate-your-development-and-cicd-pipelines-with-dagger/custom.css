@@ -1,0 +1,14 @@
+.v-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
+
+.v-center-container > .column {
+  vertical-align: middle;
+}
+
+.reveal.has-dark-background .slide-logo {
+  display: none !important;
+}
