@@ -1,0 +1,644 @@
+---
+title: "Accelerate Your Development and CI/CD Pipelines with Dagger"
+date: "2025-06-05 13:20"
+event: "KCD Czech & Slovak"
+eventUrl: https://kcd-czech-slovak-2025.sessionize.com/session/842259
+description: |
+    Tired of environment drift and inconsistent build results across machines and CI servers? Frustrated by onboarding delays when setting up development environments on new hardware or debugging why scripts fail in CI but work locally?
+
+    If any of the above resonates, this workshop (and Dagger) is for you.
+
+    Dagger is a portable, programmable CI/CD engine that runs your pipelines in containers. In this workshop, we'll explore how Dagger can:
+
+    - Eliminate Environment Discrepancies: Use containerization to ensure your development and CI environments are identical.
+    - Simplify Onboarding: Create self-contained environments that new team members can spin up instantly.
+    - Streamline CI/CD Pipelines: Define complex pipelines with code-first configuration, reducing failures due to environment differences.
+    - Enhance Productivity: Focus on coding rather than environment setup and debugging.
+
+    Through a hands-on session, we'll port an existing development and CI setup to Dagger using a realistic example project. You'll gain practical experience in:
+
+    - Writing Dagger pipelines using Go
+    - Orchestrating builds, tests, and deployments in a consistent environment
+    - Integrating Dagger into existing workflows
+
+    By the end of this workshop, you'll be equipped to leverage Dagger to standardize environments, accelerate your CI/CD pipelines, and improve team collaboration.
+categories: [cicd, dagger]
+# image: preview.png
+format:
+  revealjs:
+    css: custom.css
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "#030525"
+      data-background-transition: slide
+    logo: assets/dagger-on-white.svg
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Cloud Native Ambassador_
+
+_Dagger Commander_
+
+<br>
+**YAML engineer for life** 😭
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.com](https://sagikazarmark.com)
+
+[hello@sagikazarmark.com](mailto:hello@sagikazarmark.com)
+
+![](assets/cncf-ambassador-h1-2024.png){.absolute top=0 right=0 width="300"}
+![](assets/dagger-commander.svg){.absolute top=350 right=0 width="300"}
+
+# 📋 Agenda
+
+- 🗣️ Why are we here?
+- 📚 Module 1: Let's Daggerize
+- 📚 Module 2: Working with modules
+- 📚 Module 3: Publishing artifacts
+- 📚 Module 4: Integrating with GitHub Actions
+- ❓Q&A
+- 🎁 Surprise _(if time allows)_
+
+# 📈 Accelerate
+
+:::: {.columns}
+
+::: {.column width="40%"}
+= room for improvement
+:::
+
+::: {.column width="60%"}
+![](assets/areas-of-improvement.webp){fig-align="center"}
+:::
+
+::::
+
+# 🔀 Environment drift
+
+## Developer environment
+
+```sh
+brew install go
+nix-env -i gotestsum
+sudo apt-get install golangci-lint
+
+make build
+just test
+task lint
+```
+
+::: {.fragment}
+::: {.callout-important appearance="minimal"}
+**What version of Go did you just install?**
+:::
+:::
+
+::: {.notes}
+Consistent onboarding experience?
+:::
+
+## CI/CD environment
+
+```{.yaml code-line-numbers="|3,10"}
+- uses: actions/setup-go@v5
+  with:
+    go-version: "1.24.0"
+
+- run: go build .
+- run: go test -race -v ./…
+
+- uses: golangci/golangci-lint-action@v8
+  with:
+    version: "v2.1.0"
+```
+
+::: {.notes}
+- custom, vendor-specific format
+- different from dev scripts
+:::
+
+## Artifacts
+
+```{.dockerfile code-line-numbers="|1"}
+FROM golang:1.23 AS go
+
+RUN go build -o app .
+
+
+FROM alpine
+
+COPY --from=go /app /usr/local/bin/
+```
+
+::: {.notes}
+- different from dev and CI scripts
+:::
+
+## Why is this a problem?
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+- Maintenance burden
+- Hidden bugs
+- Undermines trust in processes ^["it always fails, just ignore it"]
+- Onboarding friction
+:::
+
+::: {.column width="50%"}
+![](assets/dev-problem.webp){fig-align="center"}
+:::
+
+::::
+
+## 💡 Unified environments
+
+![](assets/environments.svg){fig-align="center"}
+
+Dev + CI/CD + Artifacts = software delivery pipelines/workflows
+
+::: {.notes}
+CI becomes a quality gate
+:::
+
+## I wish there was...
+
+## {#containers}
+
+![](assets/containers.webp){fig-align="center"}
+
+## Is `docker run` the answer?
+
+::: {.fragment}
+It gives you containers...
+:::
+
+::: {.fragment}
+...but not workflows.
+:::
+
+::: {.notes}
+There is a missing piece.
+:::
+
+# 🙏 Push'n'Pray
+
+## {#pushnpray-code transition="fade"}
+
+![](assets/pushnpray-code.svg){fig-align="center"}
+
+## {#pushnpray-commit transition="fade"}
+
+![](assets/pushnpray-commit.svg){fig-align="center"}
+
+## {#pushnpray-wait transition="fade"}
+
+![](assets/pushnpray-wait.svg){fig-align="center"}
+
+## {#pushnpray-eternity background-image="assets/eternity.webp" background-transition="slide" background-transition-speed="fast"}
+
+## {#pushnpray-fail}
+
+![](assets/pushnpray-fail.svg){fig-align="center"}
+
+## {#pushnpray-github background-color="black" background-image="assets/pushnpray.webp" background-transition="fade"}
+
+## {#pushnpray-pain visibility="hidden"}
+
+![](assets/pushnpray-pain.svg){fig-align="center"}
+
+## {#nopushnpray-code transition="fade-out"}
+
+![](assets/nopushnpray-code.svg){fig-align="center"}
+
+## {#nopushnpray-profit transition="fade"}
+
+![](assets/nopushnpray-profit.svg){fig-align="center"}
+
+## 💡 Portable workflows
+
+Run the same workflow:
+
+- in dev
+- in CI
+- anywhere
+
+## No more Push'n'Pray
+
+- ⌛ Shorter feedback loop
+- 💸 Less CI resources wasted ^[Planet Earth sends her regards]
+- 🤯 You maintain your sanity
+
+# ✍️ YAML
+
+## Day 1...
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: |
+          build
+          test
+          lint
+```
+
+## Day 101
+
+700+ lines of YAML & Bash chaos
+
+```yaml
+# Foobar pipeline
+# Include the Common CI pipeline parameters.
+include:
+  - project: 'foo/bar/foobarproject/cicdtemplate'
+    file: '/Common.gitlab-ci.yml'
+  #- /force-app/ui-tests/pipeline.yml
+
+stages:
+  - build-metadata-package
+  - run-js-tests
+  - validate-package
+  - deploy-package
+  - run-unit-tests
+  - run-api-tests
+  - run-ui-tests
+  - integration
+
+####################################################
+# Builds the Metadata Package, builds the Package
+# files and Destructive changes
+####################################################
+build-metadata-package:
+  stage: build-metadata-package
+  except:
+    ...
+```
+
+## 🤔 How did we end up in this mess?
+
+::: {.incremental}
+- YAML is a _data serialization_ language
+- Workflows are not strictly declarative
+:::
+
+## YAML...
+
+- is not reusable ^[Anchors don't count]
+- is not composable
+- provides poor control flow
+- is not portable (vendor lock-in)
+
+::: {.callout-important appearance="minimal"}
+**YAML is a poor choice of language for software delivery workflows.**
+:::
+
+## Example: Control Flow {visibility="hidden"}
+
+:::: {.columns}
+
+::: {.column width="55%"}
+```yaml
+steps:
+- uses: haya14busa/action-cond@v1
+  id: release
+  with:
+    cond: ${{ github.event_name == 'tag' }}
+    if_true: "true"
+    if_false: "false"
+- name: Do something
+  run: echo "${{ steps.release.outputs.value }}"
+```
+:::
+
+::: {.column width="45%"}
+```go
+if release {
+    // do something
+} else {
+    // do something else
+}
+```
+:::
+
+::::
+
+## How about using a _real_ programming language?
+
+::: {.notes}
+Stop treating software pipelines as configuration.
+:::
+
+## How about using a programming language _you already know_?
+
+## Example (pseudo code)
+
+```go
+func build() Binary {
+    return go.Build(".")
+}
+
+func push() {
+    ctr := newContainer().
+        copy("/app", build())
+
+    pushContainer(ctr)
+}
+```
+
+# 👍 Ideal solution
+
+:::: {.columns}
+
+::: {.column width="50%"}
+~~🔀 Environment drift~~
+
+~~🙏 Push'n'Pray~~
+
+~~✍️ YAML~~
+:::
+
+::: {.column width="50%"}
+→ Unified environments
+
+→ Portable workflows
+
+→ Programmable workflows
+:::
+
+::::
+
+# {#dagger .nostretch background-color="#030525" background-transition="slide"}
+
+![](assets/dagger.svg){fig-align="center"}
+
+## Dagger Functions
+
+- Write your workflows as code
+- Orchestrate containers
+- Run them anywhere
+
+## {#dagger-function-flow}
+
+![](assets/dagger-function.svg){fig-align="center"}
+
+## Dagger Function Example {visibility="hidden"}
+
+::: {.panel-tabset}
+
+### Go
+
+```go
+func (m *Module) Build() *dagger.File {
+    return dag.Container().
+        From("golang").
+        WithExec([]string{"go", "build", "-o", "app", "."}).
+        File("/app")
+}
+```
+
+### Python
+
+```python
+@function
+def build(self) -> dagger.Container:
+    return dag.container().
+        from("golang").
+        with_exec(["go", "build", "-o", "app", "."]).
+        file("/app")
+```
+
+### TypeScript
+
+```typescript
+  @func()
+  build(): Container {
+    return dag.container().
+      from("golang").
+      withExec(["go", "build", "-o", "app", "."]).
+      file("/app")
+  }
+```
+
+:::
+
+# Workshop
+
+_Let's get our hands dirty!_
+
+## Workshop environment
+
+:::: {.columns}
+
+::: {.column width="60%"}
+- Use your own machine
+- Use the [online playground](https://labs.iximiuz.com/trainings/2025-06-05-kcd-czech-slovak-dagger-workshop-a679860c)
+
+---
+
+1. Go to [https://labs.iximiuz.com](https://labs.iximiuz.com)
+2. Sign in with GitHub
+3. Go to the training URL
+:::
+
+::: {.column width="40%"}
+{{< qrcode width=250 height=250 https://labs.iximiuz.com/trainings/2025-06-05-kcd-czech-slovak-dagger-workshop-a679860c qr1 >}}
+[_[skm.li/kcd-cz-sk-25/play](https://skm.li/kcd-cz-sk-25/play)_]{.class style="font-size: 70%"}
+:::
+
+::::
+
+## Prerequisites
+
+-  Make sure Docker is installed and running.
+-  Make sure [Go](https://go.dev/dl/) is installed.
+-  Install the latest [Dagger CLI](https://docs.dagger.io/install).
+-  Make sure you have a [GitHub](https://github.com) account set up with SSH keys.
+-  Last, but not least: you'll need your favorite text editor or IDE.
+
+## Workshop materials
+
+[https://github.com/sagikazarmark/workshop-kcd-czsk-2025](https://github.com/sagikazarmark/workshop-kcd-czsk-2025)
+
+[skm.li/kcd-cz-sk-25](https://skm.li/kcd-cz-sk-25)
+
+# 🔭 Dagger in the Wild
+
+[github.com/openmeterio/openmeter](https://github.com/openmeterio/openmeter)
+
+[github.com/twirphp/twirp](https://github.com/twirphp/twirp)
+
+# Any questions?
+
+:::: {.columns}
+
+::: {.column width="50%"}
+[https://forms.gle/2e2HN3G4pFxMTrry5](https://forms.gle/2e2HN3G4pFxMTrry5)
+
+[skm.li/kcd-cz-sk-25/feedback](https://skm.li/kcd-cz-sk-25/feedback)
+:::
+
+::: {.column width="50%"}
+{{< qrcode width=400 height=400 https://forms.gle/2e2HN3G4pFxMTrry5 qr2 >}}
+:::
+
+::::
+
+# 👋 Thank you
+
+Stay in touch!
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.com](https://sagikazarmark.com)
+
+[hello@sagikazarmark.com](mailto:hello@sagikazarmark.com)
+
+# 🎮 Game {visibility="uncounted"}
+
+::: {.fragment}
+Guess which image is AI generated.
+:::
+
+## {#game-img1 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/areas-of-improvement.webp){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+AI generated
+:::
+:::
+
+::::
+
+## {#game-img2 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/dev-problem.webp){.lightbox fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+![](assets/dev-problem.orig.webp){.lightbox fig-align="center"}
+:::
+:::
+
+::::
+
+::: {.fragment fragment-index=1}
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+AI generated
+:::
+
+::: {.column width="50%"}
+Original
+:::
+
+::::
+:::
+
+## {#game-img3 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/containers.webp){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+AI generated
+:::
+:::
+
+::::
+
+## {#game-img4 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/eternity.webp){.lightbox fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+![](assets/eternity.orig.webp){.lightbox fig-align="center"}
+:::
+:::
+
+::::
+
+::: {.fragment fragment-index=1}
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+AI generated
+:::
+
+::: {.column width="50%"}
+Original
+:::
+
+::::
+:::
+
+## {#game-img5 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/pushnpray.webp){.lightbox fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+![](assets/pushnpray.orig.webp){fig-align="center"}
+:::
+:::
+
+::::
+
+::: {.fragment fragment-index=1}
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+AI generated
+:::
+
+::: {.column width="50%"}
+Original
+:::
+
+::::
+:::
+
+## 🎮 Thanks for playing! {visibility="uncounted"}
