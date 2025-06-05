@@ -115,9 +115,9 @@ Consistent onboarding experience?
 - run: go build .
 - run: go test -race -v ./…
 
-- uses: golangci/golangci-lint-action@v7
+- uses: golangci/golangci-lint-action@v8
   with:
-    version: "v2.0.0"
+    version: "v2.1.0"
 ```
 
 ::: {.notes}
@@ -211,7 +211,7 @@ There is a missing piece.
 
 ## {#pushnpray-github background-color="black" background-image="assets/pushnpray.webp" background-transition="fade"}
 
-## {#pushnpray-pain}
+## {#pushnpray-pain visibility="hidden"}
 
 ![](assets/pushnpray-pain.svg){fig-align="center"}
 
@@ -398,7 +398,7 @@ func push() {
 
 ![](assets/dagger-function.svg){fig-align="center"}
 
-## Dagger Function Example
+## Dagger Function Example {visibility="hidden"}
 
 ::: {.panel-tabset}
 
@@ -448,12 +448,18 @@ _Let's get our hands dirty!_
 
 ::: {.column width="60%"}
 - Use your own machine
-- Use the [online playground](https://labs.iximiuz.com/trainings/TODO)
+- Use the [online playground](https://labs.iximiuz.com/trainings/2025-06-05-kcd-czech-slovak-dagger-workshop-a679860c)
+
+---
+
+1. Go to [https://labs.iximiuz.com](https://labs.iximiuz.com)
+2. Sign in with GitHub
+3. Go to the training URL
 :::
 
 ::: {.column width="40%"}
-{{< qrcode width=250 height=250 https://labs.iximiuz.com/trainings/TODO qr1 >}}
-[_[skm.li/TODO](https://skm.li/TODO)_]{.class style="font-size: 70%"}
+{{< qrcode width=250 height=250 https://labs.iximiuz.com/trainings/2025-06-05-kcd-czech-slovak-dagger-workshop-a679860c qr1 >}}
+[_[skm.li/kcd-cz-sk-25/play](https://skm.li/kcd-cz-sk-25/play)_]{.class style="font-size: 70%"}
 :::
 
 ::::
@@ -468,9 +474,9 @@ _Let's get our hands dirty!_
 
 ## Workshop materials
 
-[https://github.com/sagikazarmark/TODO](https://github.com/sagikazarmark/TODO)
+[https://github.com/sagikazarmark/workshop-kcd-czsk-2025](https://github.com/sagikazarmark/workshop-kcd-czsk-2025)
 
-[skm.li/TODO](https://skm.li/TODO)
+[skm.li/kcd-cz-sk-25](https://skm.li/kcd-cz-sk-25)
 
 # 🔭 Dagger in the Wild
 
@@ -483,13 +489,13 @@ _Let's get our hands dirty!_
 :::: {.columns}
 
 ::: {.column width="50%"}
-[https://forms.gle/TODO](https://forms.gle/TODO)
+[https://forms.gle/2e2HN3G4pFxMTrry5](https://forms.gle/2e2HN3G4pFxMTrry5)
 
-[skm.li/TODO](https://skm.li/TODO)
+[skm.li/kcd-cz-sk-25/feedback](https://skm.li/kcd-cz-sk-25/feedback)
 :::
 
 ::: {.column width="50%"}
-{{< qrcode width=400 height=400 https://forms.gle/TODO qr2 >}}
+{{< qrcode width=400 height=400 https://forms.gle/2e2HN3G4pFxMTrry5 qr2 >}}
 :::
 
 ::::
