@@ -392,7 +392,7 @@ func push() {
 
 - Write your workflows as code
 - Orchestrate containers
-- Run them anywhere
+- Run them anywhere ^[Where you can run containers]
 
 ## {#dagger-function-flow}
 
