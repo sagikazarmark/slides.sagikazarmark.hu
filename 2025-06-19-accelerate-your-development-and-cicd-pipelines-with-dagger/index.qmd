@@ -441,8 +441,7 @@ _Let's see some code already!!!_
 
 ## Demo repository
 
-TODO
-[https://github.com/sagikazarmark/workshop-kcd-czsk-2025](https://github.com/sagikazarmark/workshop-kcd-czsk-2025)
+[https://github.com/sagikazarmark/demo-cloud-native-timisoara-2025](https://github.com/sagikazarmark/demo-cloud-native-timisoara-2025)
 
 # 🔭 Dagger in the Wild
 
