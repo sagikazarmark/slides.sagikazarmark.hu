@@ -55,32 +55,14 @@ _Dagger Commander_
 
 [hello@sagikazarmark.com](mailto:hello@sagikazarmark.com)
 
-![](assets/cncf-ambassador-h1-2024.png){.absolute top=0 right=0 width="300"}
+![](assets/cncf-ambassador-h1-2024-2026.png){.absolute top=0 right=0 width="300"}
 ![](assets/dagger-commander.svg){.absolute top=350 right=0 width="300"}
 
-# 📋 Agenda
+# _CI/CD is broken... 🔥_
 
-- 🗣️ Why are we here?
-- 📚 Module 1: Let's Daggerize
-- 📚 Module 2: Working with modules
-- 📚 Module 3: Publishing artifacts
-- 📚 Module 4: Integrating with GitHub Actions
-- ❓Q&A
-- 🎁 Surprise _(if time allows)_
-
-# 📈 Accelerate
-
-:::: {.columns}
-
-::: {.column width="40%"}
-= room for improvement
+::: {.fragment}
+...and we don't care anymore
 :::
-
-::: {.column width="60%"}
-![](assets/areas-of-improvement.webp){fig-align="center"}
-:::
-
-::::
 
 # 🔀 Environment drift
 
@@ -160,7 +142,7 @@ COPY --from=go /app /usr/local/bin/
 
 ::::
 
-## 💡 Unified environments
+## 💡 Portable environments
 
 ![](assets/environments.svg){fig-align="center"}
 
@@ -232,11 +214,13 @@ Run the same workflow:
 - in CI
 - anywhere
 
-## No more Push'n'Pray
+::: {.notes}
+No more Push'n'Pray
 
 - ⌛ Shorter feedback loop
 - 💸 Less CI resources wasted ^[Planet Earth sends her regards]
 - 🤯 You maintain your sanity
+:::
 
 # ✍️ YAML
 
@@ -363,6 +347,28 @@ func push() {
 }
 ```
 
+# 🤖 AI
+
+## {#aitoday}
+
+![](assets/aitoday.svg){fig-align="center"}
+
+## How can AI help?
+
+- Fix tests and open PRs
+- Find vulnerable dependencies and update them
+- Make sure your code is in line with coding standards
+
+## But how?
+
+- GitHub Actions?
+- Custom scripts?
+
+## 💡 AI Native workflows
+
+- Integrate AI into your workflow code
+- Once again: portable workflows are king
+
 # 👍 Ideal solution
 
 :::: {.columns}
@@ -373,14 +379,18 @@ func push() {
 ~~🙏 Push'n'Pray~~
 
 ~~✍️ YAML~~
+
+🤖 AI
 :::
 
 ::: {.column width="50%"}
-→ Unified environments
+→ Portable environments
 
 → Portable workflows
 
 → Programmable workflows
+
+→ AI Native workflows
 :::
 
 ::::
@@ -391,15 +401,13 @@ func push() {
 
 ## Dagger Functions
 
-- Write your workflows as code
+- Write your workflows as code...
+- ...in a programming language you already know
 - Orchestrate containers
 - Run them anywhere ^[Where you can run containers]
+- Use them as AI agents
 
-## {#dagger-function-flow}
-
-![](assets/dagger-function.svg){fig-align="center"}
-
-## Dagger Function Example {visibility="hidden"}
+## Dagger Function Example
 
 ::: {.panel-tabset}
 
@@ -439,45 +447,41 @@ def build(self) -> dagger.Container:
 
 :::
 
-# Workshop
+## Dagger AI Example
 
-_Let's get our hands dirty!_
+```go
+func (m *Module) Test() error {
+    err := m.runTests()
+    if err != nil {
+        env := dag.Env().
+            WithStringInput("error", err.Error(), "error message for the test")
+            WithDirectoryInput("source", source, "source code").
+            WithDirectoryOutput("fixed", "fixed code")
 
-## Workshop environment
+        work := dag.LLM().
+            WithEnv(env).
+            WithPrompt("My tests failed with $error. Fix them!")
 
-:::: {.columns}
+        // Contains the fixed code
+        work.Env().Output("fixed").Directory()
+    }
 
-::: {.column width="60%"}
-- Use your own machine
-- Use the [online playground](https://labs.iximiuz.com/trainings/2025-07-21-cns-munich-dagger-workshop-ff0b503c)
+    return nil
+}
+```
 
----
+## {#dagger-function-flow}
 
-1. Go to [https://labs.iximiuz.com](https://labs.iximiuz.com)
-2. Sign up with GitHub
-3. Go to the training URL
-:::
+![](assets/dagger-function.svg){fig-align="center"}
 
-::: {.column width="40%"}
-{{< qrcode width=250 height=250 https://labs.iximiuz.com/trainings/2025-07-21-cns-munich-dagger-workshop-ff0b503c qr1 >}}
-[_[skm.li/cns-munich-25/play](https://skm.li/cns-munich-25/play)_]{.class style="font-size: 70%"}
-:::
+## More features
 
-::::
+- Reusable modules
+- Caching
+- Integration with secret providers
+- Tracing
 
-## Prerequisites
-
--  Make sure Docker is installed and running.
--  Make sure [Go](https://go.dev/dl/) is installed.
--  Install the latest [Dagger CLI](https://docs.dagger.io/install).
--  Make sure you have a [GitHub](https://github.com) account set up with SSH keys.
--  Last, but not least: you'll need your favorite text editor or IDE.
-
-## Workshop materials
-
-[https://github.com/sagikazarmark/workshop-cns-munich-2025](https://github.com/sagikazarmark/workshop-cns-munich-2025)
-
-[skm.li/cns-munich-25](https://skm.li/cns-munich-25)
+# Demo
 
 # 🔭 Dagger in the Wild
 
@@ -485,19 +489,9 @@ _Let's get our hands dirty!_
 
 [github.com/twirphp/twirp](https://github.com/twirphp/twirp)
 
+[github.com/sagikazarmark/daggerverse](https://github.com/sagikazarmark/daggerverse)
+
 # Any questions?
-
-:::: {.columns}
-
-::: {.column width="50%"}
-[skm.li/cns-munich-25/feedback](https://skm.li/cns-munich-25/feedback)
-:::
-
-::: {.column width="50%"}
-{{< qrcode width=400 height=400 https://forms.gle/1LD5CzcV1oAY3SdR9 qr2 >}}
-:::
-
-::::
 
 # 👋 Thank you
 
@@ -519,22 +513,6 @@ Guess which image is AI generated.
 :::
 
 ## {#game-img1 visibility="uncounted"}
-
-:::: {.columns .v-center-container}
-
-::: {.column width="50%"}
-![](assets/areas-of-improvement.webp){fig-align="center"}
-:::
-
-::: {.column width="50%"}
-::: {.fragment}
-AI generated
-:::
-:::
-
-::::
-
-## {#game-img2 visibility="uncounted"}
 
 :::: {.columns .v-center-container}
 
@@ -564,7 +542,7 @@ Original
 ::::
 :::
 
-## {#game-img3 visibility="uncounted"}
+## {#game-img2 visibility="uncounted"}
 
 :::: {.columns .v-center-container}
 
@@ -580,7 +558,7 @@ AI generated
 
 ::::
 
-## {#game-img4 visibility="uncounted"}
+## {#game-img3 visibility="uncounted"}
 
 :::: {.columns .v-center-container}
 
@@ -610,7 +588,7 @@ Original
 ::::
 :::
 
-## {#game-img5 visibility="uncounted"}
+## {#game-img4 visibility="uncounted"}
 
 :::: {.columns .v-center-container}
 
@@ -639,5 +617,21 @@ Original
 
 ::::
 :::
+
+## {#game-img4 visibility="uncounted"}
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+![](assets/dagger-function.svg){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+Human generated
+:::
+:::
+
+::::
 
 ## 🎮 Thanks for playing! {visibility="uncounted"}
