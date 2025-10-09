@@ -218,7 +218,7 @@ Run the same workflow:
 No more Push'n'Pray
 
 - ⌛ Shorter feedback loop
-- 💸 Less CI resources wasted ^[Planet Earth sends her regards]
+- 💸 Less CI resources wasted (Planet Earth sends her regards)
 - 🤯 You maintain your sanity
 :::
 
