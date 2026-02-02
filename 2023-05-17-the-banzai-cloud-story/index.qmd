@@ -1,0 +1,176 @@
+---
+title: "The Banzai Cloud story"
+date: "2023-05-17 18:00"
+event: "CN Szeged meetup"
+lang: en
+categories: [startup]
+# image: preview.png
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    navigation-mode: vertical
+    title-slide-attributes:
+      data-background-color: "#1e1973"
+      data-background-transition: slide
+    logo: bc-logo.svg
+---
+
+# `whoami`
+
+**Márk Sági-Kazár**
+
+_Open Source Tech Lead @ Cisco_
+
+CNCF Ambassador
+
+<br>
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
+
+![](assets/cncf-ambassador-spring-2023.png){.absolute top=0 right=0 width="300"}
+
+# {#timeline .nostretch}
+
+![](assets/timeline.svg){fig-align="center"}
+
+# Foundation
+
+## Mission
+
+- "Azt nem lehet Dockerben futtatni"
+- Help companies with their digital transformation
+
+::: {.notes}
+- Open-core products
+:::
+
+## Founders
+
+- ex-Ustream
+- ex-SequenceIQ
+
+::: {.notes}
+- Considerable startup experience
+- ...including how a startup shouldn't work
+:::
+
+# Lessons learnt
+
+## Product strategy & marketing
+
+- Products built by engineers for engineers
+- Tech blog 🡒 works...to some degree
+- Don't be afraid from 180 degree direction changes
+
+::: {.notes}
+- Comprehensive solutions from infrastructure management to application deployments
+:::
+
+## Go to market
+
+- US presence matters (aka. "Hungary? That's in South America, right?")
+- Product market fit (aka. throw shit at the wall and see what sticks)
+- _Pro tip:_ find design partners **soon**
+
+::: {.notes}
+- Have a presence in the Bay area (San Diego meetup: senki nem ismert minket)
+:::
+
+## Office & social life
+
+- If you have an office: **use it!**
+- Social life matters (especially over 10 people)
+- Brownbag sessions (educate each other)
+
+::: {.notes}
+- Communicate, talk to each other (don't get isolated)
+- Covid made things worse
+:::
+
+## Hiring
+
+- We hired all available top talent
+- We needed more 🡒 we hired people capable to **learn**
+
+::: {.notes}
+- Interview process aimed to evaluate that
+- Homework assignment is still in use after ~5 years
+:::
+
+## Hard decisions
+
+- Letting people go
+- Letting products go
+
+## Post-acquisition
+
+- Integration went reasonably well (compared to...others)
+- Product integration
+  - Original idea sounded reasonable
+  - Exection...ongoing
+
+::: {.notes}
+- 2 years path finding
+- Lost our competitive advantage
+:::
+
+# Life at Banzai
+
+---
+
+![](assets/office1.jpg)
+
+---
+
+![](assets/office2.jpg)
+
+---
+
+![](assets/office3.jpg)
+
+---
+
+![](assets/fuel1.jpg)
+
+---
+
+![](assets/fuel2.jpg)
+
+---
+
+![](assets/conf.jpg)
+
+---
+
+![](assets/social.jpg)
+
+---
+
+![](assets/sleep1.jpg)
+
+---
+
+![](assets/sleep2.jpg)
+
+---
+
+![](assets/acquisition.jpg)
+
+# Thank you
+
+_Any questions?_
+
+<br>
+<br>
+
+[@sagikazarmark](https://twitter.com/sagikazarmark)
+
+[https://sagikazarmark.hu](https://sagikazarmark.hu)
+
+[hello@sagikazarmark.hu](mailto:hello@sagikazarmark.hu)
